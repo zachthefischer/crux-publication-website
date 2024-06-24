@@ -1,0 +1,23 @@
+#home-search { 
+    background-color: rgba(255, 255, 255, 0.545);
+    border: 1px rgb(183, 183, 183) solid;
+}
+
+#sort-by{
+    color: grey;
+    background-color: rgba(255, 255, 255, 0.545);
+    border: 1px rgb(183, 183, 183) solid;
+}
+
+.dropdown-menu{
+    background-color: rgba(255, 255, 255, 0.938);
+    border: 0;
+}
+
+.dropdown-menu {
+    width: 80%;
+}
+
+.dropdown-item{
+    width: 20%;
+}
