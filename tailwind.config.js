@@ -3,12 +3,29 @@ import daisyui from "daisyui"
 export default {
   content: ['./src/**/*.{html,js,svelte,ts}'],
   theme: {
-    extend: {}
+    extend: {},
+    container: {
+      center: true,
+    },
   },
   plugins: [
     daisyui,
   ],
   daisyui: {
-    themes: ["light"]
+    themes: [
+      {
+        mytheme: {
+            "primary"   : "#292929",
+            "secondary" : "#f3f4f6",
+            "accent"    : "#1f438f",
+            "neutral"   : "#363636",
+            "base-100"  : "#ffffff",
+            "info"      : "#ff00ff",
+            "success"   : "#1D92D9",
+            "warning"   : "#00ff00",
+            "error"     : "#ff0000",
+          },
+        },
+    ]
   },
 };
