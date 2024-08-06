@@ -1,10 +1,10 @@
 <script>
-	import cruxLogo from '$assets/CruX Logo.png'
+	import crux_logo from '$lib/assets/CruXLogo.png'
 </script>
   
 <footer class="footer bg-primary text-primary-content p-10 ">
     <aside>
-        <img class="w-14" src={cruxLogo} alt="CruX Logo">
+        <img class="w-14" src={crux_logo} alt="CruX Logo">
 
       <p>
         <b>CruX Publication</b> @ UCLA

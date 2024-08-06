@@ -2,10 +2,9 @@
     import "../app.css";
     import BackgroundComponent  from "$lib/components/BackgroundComponent.svelte";
     import FooterComponent      from "$lib/components/FooterComponent.svelte";
-	import cruxLogo             from '$assets/CruX Logo.png'
-    import cruxTitle            from '$assets/CruX Title.png'
+	import crux_logo            from '$lib/assets/CruXLogo.png';
+    import crux_title           from '$lib/assets/CruXTitle.png';
 </script>
-
 
 <BackgroundComponent/>
 
@@ -14,6 +13,7 @@
         <input id="my-drawer-3" type="checkbox" class="drawer-toggle" />
 
         <div class="drawer-content flex flex-col">
+            
             <!-- Navbar -->
             <div class="navbar bg-primary w-full p-0 m-0">
                 <div class="flex-none md:hidden">
@@ -34,11 +34,9 @@
                 </div>
                 <!-- Small Title and Logo -->
                 <div class="mx-2 px-2 md:hidden flex flex-row">
-                    <a href="/"><img class="max-h-12" src={cruxLogo} alt="CruX Logo"></a>
-                    <a href="/"><img class="max-h-12" src={cruxTitle} alt="CruX Title"></a>
+                    <a href="/"><img class="max-h-12" src={crux_logo} alt="CruX Logo"></a>
+                    <a href="/"><img class="max-h-12" src={crux_title} alt="CruX Title"></a>
                 </div>
-                  
-
 
                 <div class="navbar-start hidden md:block"></div>    
                 <div class="navbar-center hidden flex-none md:block p-0">
@@ -46,8 +44,8 @@
                         <!-- Navbar menu content here -->
                         <div class="flex flex-col">
                             <div class="flex flex-row">
-                                <a href="/"><img class="h-20 max-w-full" src="/src/lib/images/CruX Logo.png" alt="CruX Logo"></a>
-                                <a href="/"><img class="h-20 max-w-full" src="/src/lib/images/CruX Title.png" alt="CruX Title"></a>
+                                <a href="/"><img class="h-20 max-w-full" src={crux_logo} alt="CruX Logo"></a>
+                                <a href="/"><img class="h-20 max-w-full" src={crux_title} alt="CruX Title"></a>
                             </div>
                             <div class="mx-auto">
                                 <ul class="menu menu-horizontal p-0 pb-2 text-primary-content text-base">
