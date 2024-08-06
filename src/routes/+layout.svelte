@@ -1,8 +1,9 @@
 <script>
     import "../app.css";
-    import BackgroundComponent from "$lib/components/BackgroundComponent.svelte";
-    import FooterComponent from "$lib/components/FooterComponent.svelte";
-	import Image from '$lib/components/Image.svelte'
+    import BackgroundComponent  from "$lib/components/BackgroundComponent.svelte";
+    import FooterComponent      from "$lib/components/FooterComponent.svelte";
+	import cruxLogo             from '/src/lib/images/CruX Logo.png'
+    import cruxTitle            from '/src/lib/images/CruX Logo.png'
 </script>
 
 
@@ -33,8 +34,8 @@
                 </div>
                 <!-- Small Title and Logo -->
                 <div class="mx-2 px-2 md:hidden flex flex-row">
-                    <a href="/"><img class="max-h-12" src="/src/lib/images/CruX Logo.png" alt="CruX Logo"></a>
-                    <a href="/"><img class="max-h-12" src="/src/lib/images/CruX Title.png" alt="CruX Title"></a>
+                    <a href="/"><img class="max-h-12" src={cruxLogo} alt="CruX Logo"></a>
+                    <a href="/"><img class="max-h-12" src={cruxTitle} alt="CruX Title"></a>
                 </div>
                   
 

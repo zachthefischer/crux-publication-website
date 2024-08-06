@@ -1,14 +1,10 @@
-<style>
-    /* Ensure the body and html take full height */
-    html, body {
-      height: 100%;
-      margin: 0;
-    }
-  </style>
+<script>
+	import cruxLogo from '/src/lib/images/CruX Logo.png'
+</script>
   
 <footer class="footer bg-primary text-primary-content p-10 ">
     <aside>
-        <img class="w-14" src="/src/lib/images/CruX Logo.png" alt="CruX Logo">
+        <img class="w-14" src={cruxLogo} alt="CruX Logo">
 
       <p>
         <b>CruX Publication</b> @ UCLA
