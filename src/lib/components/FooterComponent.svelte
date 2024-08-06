@@ -1,5 +1,5 @@
 <script>
-	import cruxLogo from '/src/lib/images/CruX Logo.png'
+	import cruxLogo from '$assets/CruX Logo.png'
 </script>
   
 <footer class="footer bg-primary text-primary-content p-10 ">

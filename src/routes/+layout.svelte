@@ -2,8 +2,8 @@
     import "../app.css";
     import BackgroundComponent  from "$lib/components/BackgroundComponent.svelte";
     import FooterComponent      from "$lib/components/FooterComponent.svelte";
-	import cruxLogo             from '/src/lib/images/CruX Logo.png'
-    import cruxTitle            from '/src/lib/images/CruX Logo.png'
+	import cruxLogo             from '$assets/CruX Logo.png'
+    import cruxTitle            from '$assets/CruX Title.png'
 </script>
 
 
