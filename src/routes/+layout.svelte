@@ -15,7 +15,7 @@
         <div class="drawer-content flex flex-col">
             
             <!-- Navbar -->
-            <div class="navbar bg-primary w-full p-0 m-0">
+            <div class="navbar bg-primary w-full p-0 m-0 shadow-lg">
                 <div class="flex-none md:hidden">
                     <label for="my-drawer-3" aria-label="open sidebar" class="btn btn-square btn-ghost">
                         <svg

@@ -48,7 +48,9 @@
     <div class="p-5 rounded-xl bg-zinc-100/50 mb-8">
         <p class="text-4xl font-bold mb-4">Our Mission</p>
 
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur </p>
+        <p>
+            At CruX Publication, we aim to drive progress in neuroscience and technology by delivering cutting-edge news and analysis. Our mission is to inform and connect the neurotech community, highlight groundbreaking research and innovations, and inspire advancements that enhance mental health and cognitive function. Through expert insights and comprehensive coverage, we strive to be the go-to source for the latest in neurotechnology.
+        </p>
         <br>
         <p>CruX UCLA Organization: <a class="underline" href="https://www.cruxucla.com/">cruxucla.com</a></p>
         <p>Our parent organization <a class="underline" href="https://neurotechx.com/">neurotechx</a></p>
@@ -60,7 +62,7 @@
 
         <div class="flex flex-wrap justify-center gap-4">
             {#each team as member}
-            <div class="flex flex-col justify-center w-36 hover:bg-zinc-200  p-2 rounded-lg">
+            <div class="flex flex-col justify-center w-36 transition duration-200 ease-in hover:bg-zinc-200 hover:shadow p-2 rounded-lg">
                 <div class="mx-auto avatar">
                     <div class="w-24 rounded-full">
                         <img src="{member.profilePic}" alt="{member.name} profile pic" />

@@ -27,7 +27,7 @@ export function setupBackground(canvasId) {
     
     let circle1x = Math.random() * canvas.width;
     let circle1y = Math.random() * canvas.height;
-    const circleRadius = 500;
+    const circleRadius = 750;
 
     let t = 0;
     // Function to generate the background

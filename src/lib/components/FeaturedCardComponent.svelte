@@ -4,9 +4,9 @@
 
 
 <a href="/article/{article.slug}">
-    <div class="flex flex-col sm:flex-row bg-zinc-100/50 hover:brightness-95 rounded-3xl mt-4 md:max-h-80">
+    <div class="flex flex-col sm:flex-row bg-zinc-100/50 hover:brightness-95 rounded-xl mt-4 md:max-h-80 border duration-200 ease-in hover:shadow">
         <div class="flex sm:flex-none w-full max-h-64 md:h-auto sm:w-2/5 justify-center text-zinc-900">
-            <img class="object-cover w-full h-auto sm:rounded-l-3xl sm:rounded-tr-none rounded-t-2xl"
+            <img class="object-cover w-full h-auto rounded-xl sm:rounded-tr-none"
             src="{article.img}"
             alt="{article.description}" />     
         </div>
