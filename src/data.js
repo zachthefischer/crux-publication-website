@@ -3,7 +3,7 @@ export const articleData = [
         slug: "one", 
         title: "Living La Vida Loca", 
         category: "Business",
-        description: "The story of a young boy who lived in the forrest with rats and raccoons and a handful of birds.", 
+        description: "The story of a young boy who lived in the forrest with rats and raccoons and a handful of birds. The story of a young boy who lived in the forrest with rats and raccoons and a handful of birds.", 
         img:"https://img.daisyui.com/images/stock/photo-1494232410401-ad00d5433cfa.webp", 
         author: "Jane Goodwont", 
         date: "Jan 1, 2022", 
@@ -13,17 +13,17 @@ export const articleData = [
         slug: "two", 
         title: "Why Brains Smell Like Cheese", 
         category: "Business",
-        description: "The story of a young boy who lived in the forrest with rats and raccoons and a handful of birds.", 
+        description: "The story of a young boy who lived in the forrest with rats and raccoons and a handful of birds. The story of a young boy who lived in the forrest with rats and raccoons and a handful of birds.", 
         img:"https://neurosciencenews.com/files/2023/12/log-covid-brain-changes-neurosicence.jpg", 
         author: "Jane Goodwont", 
         date: "Jan 1, 2022",
-        content: "james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper "
+        content: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
     },
     {
         slug: "three", 
         title: "The Physical Impossibility of Death", 
         category: "Technology",
-        description: "The story of a young boy who lived in the forrest with rats and raccoons and a handful of birds.", 
+        description: "The story of a young boy who lived in the forrest with rats and raccoons and a handful of birds. The story of a young boy who lived in the forrest with rats and raccoons and a handful of birds.", 
         img:"https://images.theconversation.com/files/423869/original/file-20210929-2257-118emfh.jpg?ixlib=rb-4.1.0&rect=19%2C39%2C3280%2C2430&q=20&auto=format&w=320&fit=clip&dpr=2&usm=12&cs=strip", 
         author: "Jane Goodwont", 
         date: "Jan 1, 2022",
@@ -31,9 +31,9 @@ export const articleData = [
     },
     {
         slug: "four", 
-        title: "The Legacy of Joever Bidone", 
+        title: "The Legacy of Joever Bidone ", 
         category: "Science",
-        description: "The story of a young boy who lived in the forrest with rats and raccoons and a handful of birds.", 
+        description: "The story of a young boy who lived in the forrest with rats and raccoons and a handful of birds. The story of a young boy who lived in the forrest with rats and raccoons and a handful of birds.", 
         img:"https://a.pinatafarm.com/1420x946/de000dbcb1/big-brain-0ef8b26fa0a27e58a297491dc8d17f83-meme.jpeg", 
         author: "Jane Goodwont", 
         date: "Jan 1, 2022",
@@ -43,11 +43,11 @@ export const articleData = [
         slug: "five", 
         title: "Image Not Found: A Memoir", 
         category: "Business",
-        description: "The story of a young boy who lived in the forrest with rats and raccoons and a handful of birds.", 
+        description: "The story of a young boy who lived in the forrest with rats and raccoons and a handful of birds. The story of a young boy who lived in the forrest with rats and raccoons and a handful of birds.", 
         img:"https://www.shutterstock.com/image-vector/default-ui-image-placeholder-wireframes-600nw-1037719192.jpg", 
         author: "Jane Goodwont", 
         date: "Jan 1, 2022",
-        content: "james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper james green is an absolute yapper "
+        content: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
     },
     // {
     //     slug: "six", 

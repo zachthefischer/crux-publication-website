@@ -4,18 +4,26 @@
     import FooterComponent      from "$lib/components/FooterComponent.svelte";
 	import crux_logo            from '$lib/assets/CruXLogo.png';
     import crux_title           from '$lib/assets/CruXTitle.png';
+
+    import { page } from '$app/stores';
+    let path;
+
+    /**
+	 * @param {string} currentPath
+	 */
+
+    $: path = $page.url.pathname;
+
 </script>
 
-<BackgroundComponent/>
-
-<div class="relative flex flex-col h-screen justify-between">
+<div class="relative flex flex-col h-screen justify-between ">
     <div class="drawer">
         <input id="my-drawer-3" type="checkbox" class="drawer-toggle" />
 
-        <div class="drawer-content flex flex-col">
-            
+        <div class="drawer-content flex flex-col ">
             <!-- Navbar -->
-            <div class="navbar bg-primary w-full p-0 m-0 shadow-lg">
+            <div class="navbar bg-zinc-900 w-full p-0 m-0 shadow-lg z-10">
+                <!-- Collapse icon -->
                 <div class="flex-none md:hidden">
                     <label for="my-drawer-3" aria-label="open sidebar" class="btn btn-square btn-ghost">
                         <svg
@@ -32,38 +40,29 @@
                         </svg>
                     </label>
                 </div>
-                <!-- Small Title and Logo -->
-                <div class="mx-2 px-2 md:hidden flex flex-row">
+                
+                <!-- Mobile Title and Logo -->
+                <div class="mx-2 px-2 md:hidden flex flex-row z-30">
                     <a href="/"><img class="max-h-12" src={crux_logo} alt="CruX Logo"></a>
                     <a href="/"><img class="max-h-12" src={crux_title} alt="CruX Title"></a>
                 </div>
 
                 <div class="navbar-start hidden md:block"></div>    
-                <div class="navbar-center hidden flex-none md:block p-0">
-                    <ul class="menu menu-horizontal ">
+                <div class="navbar-center hidden flex-none md:block p-0 w-[90%] md:w-3/4 lg:w-3/5">
+                    <ul class="menu menu-horizontal w-full flex flex-col p-0">
                         <!-- Navbar menu content here -->
-                        <div class="flex flex-col">
-                            <div class="flex flex-row">
-                                <a href="/"><img class="h-20 max-w-full" src={crux_logo} alt="CruX Logo"></a>
-                                <a href="/"><img class="h-20 max-w-full" src={crux_title} alt="CruX Title"></a>
-                            </div>
-                            <div class="mx-auto">
-                                <ul class="menu menu-horizontal p-0 pb-2 text-primary-content text-base">
-                                    <li class="hover:text-white"><a href="/">Home</a></li>
-                                    <li>
-                                        <details>
-                                            <summary class="hover:text-white">Publications</summary>
-                                            <ul class="bg-primary rounded-t-none rounded-b-md z-50">
-                                                <li class="hover:text-white"><a href="/archive/Business">Business</a></li>
-                                                <li class="hover:text-white"><a href="/archive/Technology">Technology</a></li>
-                                                <li class="hover:text-white"><a href="/archive/Science">Science</a></li>
-                                                <li class="hover:text-white"><a href="/archive/All"><b>All</b></a></li>
-                                            </ul>
-                                        </details>
-                                    </li>
-                                    <li><a class="hover:text-white" href="/about"> About </a></li>
-                                </ul>
-                            </div>
+                        <div class="flex flex-row mx-auto">
+                            <a href="/"><img class="h-20 max-w-full" src={crux_logo} alt="CruX Logo"></a>
+                            <a href="/"><img class="h-20 max-w-full" src={crux_title} alt="CruX Title"></a>
+                        </div>
+                        <div class="w-full">
+                            <ul class="menu menu-horizontal p-0 pb-2 text-primary-content text-base flex justify-around" style="">
+                                <li class="hover:text-white"><a class={path === '/'             ? 'text-white' : ''}  href="/">Home</a></li>
+                                <li class="hover:text-white"><a class={path === '/business'     ? 'text-white' : ''}  href="/business">Business</a></li>
+                                <li class="hover:text-white"><a class={path === '/technology'   ? 'text-white' : ''}  href="/technology">Technology</a></li>
+                                <li class="hover:text-white"><a class={path === '/science'      ? 'text-white' : ''}  href="/science">Science</a></li>
+                                <li class="hover:text-white"><a class={path === '/about'        ? 'text-white' : ''}  href="/about">About</a></li>
+                            </ul>
                         </div>
                     </ul>
                 </div>
@@ -71,26 +70,19 @@
             </div>
     
             <!-- Page Content -->
-                    <slot />
+            <slot />
         </div>
 
         <!-- Sidebar Drawer -->
-        <div class="drawer-side">
+        <div class="drawer-side z-20">
             <label for="my-drawer-3" aria-label="close sidebar" class="drawer-overlay"></label>
-            <ul class="menu bg-primary min-h-full w-80 p-4 text-primary-content">
+            <ul class="menu bg-zinc-900 min-h-full w-80 p-4 text-primary-content">
                 <!-- Sidebar content -->
+                <li><a href="/"><img class="max-h-12" src={crux_logo} alt="CruX Logo"></a></li>
                 <li><a href="/">Home</a></li>
-                <li>
-                    <details>
-                        <summary>Publications</summary>
-                        <ul class="bg-primary rounded-t-none rounded-b-md z-50">
-                            <li><a href="/archive/Business">Business</a></li>
-                            <li><a href="/archive/Technology">Technology</a></li>
-                            <li><a href="/archive/Science">Science</a></li>
-                            <li><a href="/archive/All"><b>All</b></a></li>
-                        </ul>
-                    </details>
-                </li>
+                <li><a href="/business">Business</a></li>
+                <li><a href="/technology">Technology</a></li>
+                <li><a href="/science">Science</a></li>
                 <li><a href="/about"> About </a></li>
             </ul>
         </div>
@@ -99,3 +91,11 @@
 
     <FooterComponent></FooterComponent>
 </div>
+
+<style>
+    a:active {
+      background-color: transparent !important;
+      color: #6d9eff !important;
+    }
+</style>
+    

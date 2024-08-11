@@ -13,7 +13,7 @@
     <div class="p-4 flex flex-col justify-between">
         <div>
             <h1 class="text-2xl text-primary font-bold">{article.title}</h1>
-            <h2 class="text pt-1 pb-2 text-zinc-500 line-clamp-3">{article.description}</h2>
+            <h2 class="text pt-1 pb-2 text-zinc-500 md:line-clamp-3">{article.description}</h2>
         </div>
         <div class="flex flex-row justify-between text-zinc-500">
             <div><b>{article.author}</b> {article.date}</div>

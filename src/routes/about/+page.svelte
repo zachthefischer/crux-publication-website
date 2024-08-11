@@ -1,4 +1,6 @@
 <script>
+	import BackgroundComponent from "$lib/components/BackgroundComponent.svelte";
+
     const team = [
         {
             name: "Ben Falkenberg",
@@ -11,41 +13,35 @@
             title: "Co-President",
         },
         {
-            name: "Bill Gates",
-            profilePic: "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp",
-            title: "Co-Co-President",
-        }, 
-        {
             name: "Zach Fischer",
             profilePic: "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp",
-            title: "Webslinger",
+            title: "Webmaster",
         },
         {
-            name: "Abigal",
+            name: "Abby",
             profilePic: "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp",
-            title: "Author, Leader",
+            title: "Author",
         },
         {
-            name: "Ron",
+            name: "Aadi",
             profilePic: "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp",
-            title: "Author, Leader",
+            title: "Author",
         },
         {
-            name: "Dwayneth",
+            name: "Jonny",
             profilePic: "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp",
-            title: "Author, Leader",
+            title: "Author",
         }
     ]
-
-
-
-
 </script>
 
+<!-- ABOUT PAGE -->
 
-<div class="flex flex-col mx-auto p-3 w-5/6 sm:w-3/4 md:w-3/5 lg:w-1/2 mt-5 text-center text-primary"> 
+<BackgroundComponent/>
+
+<div class="flex flex-col mx-auto p-3 w-5/6 sm:w-3/4 md:w-3/5 lg:w-1/2 mt-5 text-center text-primary z-10"> 
     <!-- Our mission -->
-    <div class="p-5 rounded-xl bg-zinc-100/50 mb-8">
+    <div class="p-5 rounded-xl bg-white/85 border mb-8">
         <p class="text-4xl font-bold mb-4">Our Mission</p>
 
         <p>
@@ -57,7 +53,7 @@
     </div>
 
     <!-- Meet the Team -->
-    <div class="p-5 rounded-xl bg-zinc-100/50 mb-8">
+    <div class="p-5 rounded-xl bg-white/85 border mb-8">
         <p class="text-4xl font-bold mb-4">Meet the Team</p>
 
         <div class="flex flex-wrap justify-center gap-4">
@@ -79,7 +75,7 @@
     </div>
 
     <!-- Our mission -->
-    <div class="p-5 rounded-xl bg-zinc-100/50 mb-8">
+    <div class="p-5 rounded-xl bg-white/85 border mb-8">
         <p class="text-4xl font-bold mb-4">Contact us yo</p>
         <p>Email us: <a class="font-bold" href="https://www.cruxucla.com/">write2crux@gmail.com</a></p>
         <p>Call us? <a class="font-bold" href="https://neurotechx.com/">408-201-2443</a></p>

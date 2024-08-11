@@ -2,7 +2,7 @@
 	import crux_logo from '$lib/assets/CruXLogo.png'
 </script>
   
-<footer class="footer bg-primary text-primary-content p-10 ">
+<footer class="footer bg-zinc-900 text-primary-content p-10 z-10 ">
     <aside>
         <img class="w-14" src={crux_logo} alt="CruX Logo">
 

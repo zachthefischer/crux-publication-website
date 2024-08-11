@@ -7,7 +7,7 @@
     });
 </script>
   
-<canvas id="backgroundCanvas" class="fixed top-0 left-0 w-full h-full z-0"></canvas>
+<canvas id="backgroundCanvas" class="fixed top-0 left-0 w-full h-full z-0 bg-gradient-to-b from-white from-50% to-zinc-300"></canvas>
 
 <style>
     canvas {
