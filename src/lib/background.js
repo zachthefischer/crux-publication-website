@@ -1,11 +1,8 @@
-// src/lib/background.js
-import { error } from "@sveltejs/kit";
-
 // Get the canvas element and its context
 // @ts-expect-error "canvasId is any type"
 export function setupBackground(canvasId) {
     // var body = document.body,
-        // html = document.documentElement;
+    // html = document.documentElement;
     // var height = Math.max( body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight );
     const canvas = document.getElementById(canvasId);  
     // @ts-expect-error "getContext does not exist on type HTTP"
@@ -25,8 +22,11 @@ export function setupBackground(canvasId) {
     // Re-adjust canvas size when the window is resized
     window.addEventListener('resize', resizeCanvas);
     
+    // @ts-expect-error "getContext does not exist on type HTTP"
     let circle1x = Math.random() * canvas.width;
+    // @ts-expect-error "getContext does not exist on type HTTP"
     let circle1y = Math.random() * canvas.height;
+    // @ts-expect-error "getContext does not exist on type HTTP"
     const circleRadius = canvas.width/3;
 
     let t = 0;

@@ -1,5 +1,4 @@
 import { articleData } from '../../data.js'
-// import { error } from '@sveltejs/kit';
 
 export function load({ params }) {
 	console.log("PARAMS", params)
