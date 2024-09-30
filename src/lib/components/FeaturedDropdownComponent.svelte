@@ -1,6 +1,6 @@
 <script>
-	import { faCaretDown, faCaretUp, faSearch } from '@fortawesome/free-solid-svg-icons';
-	import { FontAwesomeIcon } from '@fortawesome/svelte-fontawesome';
+	// import { faCaretDown, faCaretUp, faSearch } from '@fortawesome/free-solid-svg-icons';
+	// import { FontAwesomeIcon } from '@fortawesome/svelte-fontawesome';
 
 	let menuOpen = false;
 	let inputValue = '';
@@ -43,9 +43,9 @@
 		<span>{!menuOpen ? 'Show Menu' : 'Close Menu'} </span>
 		<span class="mr-1 text-sm">
 			{#if menuOpen}
-				<FontAwesomeIcon icon={faCaretUp} />
+				<!-- <FontAwesomeIcon icon={faCaretUp} /> -->
 			{:else}
-				<FontAwesomeIcon icon={faCaretDown} />
+				<!-- <FontAwesomeIcon icon={faCaretDown} /> -->
 			{/if}
 		</span>
 	</button>
@@ -59,7 +59,7 @@
 			bind:value={inputValue}
 			on:input={handleInput}
 		/>
-		<span id="search-icon"> <FontAwesomeIcon icon={faSearch} class="text-sm" /> </span>
+		<!-- <span id="search-icon"> <FontAwesomeIcon icon={faSearch} class="text-sm" /> </span> -->
 		<!-- MENU -->
 		{#if filteredItems.length > 0}
 			{#each filteredItems as item}
