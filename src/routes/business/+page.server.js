@@ -1,18 +1,15 @@
-import { articleData } from '../../data.js'
-// import { error } from '@sveltejs/kit';
+import { getArticles } from '$lib/firebase.services';  // This should be the function you created for Firestore queries
 
-export function load({ params }) {
-	console.log("PARAMS", params)
+export async function load() {
+    // Query Firestore for articles in the 'Technology' category
+    const articles = await getArticles('Business');
+    const featuredArticle = articles[1];
+    const featuredSubarticle = articles[1] ? articles[1] : articles[0];
 
+	// Pass articles to the frontend
     return {
-		articles: articleData.map((article) => ({
-			slug: article.slug,
-			title: article.title,
-			category: article.category,
-			description: article.description,
-			img: article.img,
-			author: article.author,
-			date: article.date,
-		})),
-	}
+        articles,
+        featuredArticle,
+        featuredSubarticle
+    };
 }

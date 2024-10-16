@@ -1,15 +1,17 @@
-import { articleData } from '../data.js'
+import { getArticles } from '$lib/firebase.services';  // This should be the function you created for Firestore queries
 
-export function load() {
-	return {
-		articles: articleData.map((article) => ({
-			slug: article.slug,
-			title: article.title,
-			category: article.category,
-			description: article.description,
-			img: article.img,
-			author: article.author,
-			date: article.date,
-		}))
-	}
+export async function load() {
+    // Query Firestore for articles in the 'Technology' category
+    const featuredArticles = await getArticles('All');
+	// const featuredArticle     = articles[0]
+	// const featuredSubarticle1 = articles[1]
+	// const featuredSubarticle2 = articles[2]
+	// const listArticle1	      = articles[3]
+	// const listArticle2        = articles[4]
+	// const listArticle3        = articles[5]
+
+    // Pass articles to the frontend
+    return {
+		featuredArticles
+	};
 }

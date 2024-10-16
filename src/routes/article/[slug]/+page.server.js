@@ -1,12 +1,15 @@
-import { error } from '@sveltejs/kit';
-import { articleData } from '../../../data.js';
+import { loadArticle } from '$lib/firebase.services';  // Assuming this is your Firestore query function
 
-export function load({ params }) {
-	const article = articleData.find((article) => article.slug === params.slug);
+export async function load({ params }) {
+    // Access the slug from the params
+    const slug = params.slug;
 
-	if (!article) throw error(404);
-
-	return {
-		article
-	};
+    // Query Firestore for articles based on the slug
+    const article = await loadArticle(slug);
+	console.log("server", article)
+	
+    // Pass the articles to the frontend
+    return {
+        article,
+    };
 }
