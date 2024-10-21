@@ -19,7 +19,7 @@
 	// TinyMCE config with event handler
 	let tinymceConfig = {
 		menubar: true,
-		height: 200,
+		height: 300,
 		plugins: 'link code',
 		setup(editor) {
 			// Listen for keydown event to handle Tab key

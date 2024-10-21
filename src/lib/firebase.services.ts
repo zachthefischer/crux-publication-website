@@ -1,4 +1,4 @@
-import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, orderBy, query, where } from "firebase/firestore";
 import type { Article, ArticleContent, Category } from "./article.types";
 import { db, storage } from "./firebase.client";
 import { getDownloadURL, ref } from "firebase/storage";
@@ -8,11 +8,15 @@ export async function getArticles(category : Category) {
 
     let q;
     if (category == 'All') {
-        q = query(collection(db, 'articles'));
+        q = query(collection(db, 'articles'), orderBy('date', 'desc'));
     } else {
-        q = query(collection(db, 'articles'), where('categories', 'array-contains', category));
+        q = query(
+            collection(db, 'articles'),
+            where('categories', 'array-contains', category),
+            orderBy('date', 'desc') // Sort by date in descending order
+        );
     }
-    
+        
     const querySnapshot = await getDocs(q);
     articles = await Promise.all (querySnapshot.docs.map(async (doc) => {
         const image: ArticleContent = await getImage(doc.data()?.image as ArticleContent);

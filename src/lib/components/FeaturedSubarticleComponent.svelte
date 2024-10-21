@@ -18,7 +18,7 @@
 
 		<!-- Title -->
 		<p
-			class="flex-none text-lg md:*:text-xl font-bold font-mono text-zinc-700 px-4 pt-2 group-hover:text-accent md:line-clamp-3 md:leading-5"
+			class="flex-none text-lg md:text-2xl font-bold font-mono text-zinc-700 px-4 pt-5 group-hover:text-accent md:line-clamp-3 md:leading-5"
 		>
 			{article.title}
 		</p>
@@ -26,7 +26,7 @@
 		<div class="grow"></div>
 
 		<!-- Author/date -->
-		<div class="flex flex-row justify-between 3 text-sm md:text-md px-4 pb-2 text-zinc-500">
+		<div class="flex flex-row justify-between text-sm md:text- px-4 pb-2 text-zinc-500">
 			<p class="text-accent font-bold">{article.categories[0]}</p>
 			<p>{article.date}</p>
 		</div>

@@ -46,10 +46,10 @@
 				/>
 			</div>
 			<div class="col-span-4 row-span-3 col-start-5 row-start-5">
-				<FeaturedSubarticleComponent article={data.featuredArticles[1]} />
+				<FeaturedSubarticleComponent article={data.featuredArticles[2]} />
 			</div>
 			<div class="col-span-4 row-span-3 col-start-1 row-start-5">
-				<FeaturedSubarticleComponent article={data.featuredArticles[2]} />
+				<FeaturedSubarticleComponent article={data.featuredArticles[1]} />
 			</div>
 		</div>
 	</div>
