@@ -32,11 +32,14 @@
 		"tslib": "^2.4.1",
 		"typescript": "^5.0.0",
 		"typescript-eslint": "^8.0.0-alpha.20",
-		"vite": "^5.0.3"
+		"vite": "^5.0.3",
+		"vite-plugin-static-copy": "^2.0.0"
 	},
 	"type": "module",
 	"dependencies": {
 		"@supabase/supabase-js": "^2.44.4",
-		"firebase": "^10.13.2"
+		"@tinymce/tinymce-svelte": "^3.0.0",
+		"firebase": "^10.13.2",
+		"tinymce": "^7.4.1"
 	}
 }

@@ -14,11 +14,64 @@
 	import { goto } from '$app/navigation';
 	import type { Article, ArticleContent } from '$lib/article.types';
 	import FeaturedDropdownComponent from '$lib/components/FeaturedDropdownComponent.svelte';
+	import Editor from '@tinymce/tinymce-svelte';
+
+	// TinyMCE config with event handler
+	let tinymceConfig = {
+		menubar: true,
+		plugins: 'link code',
+		toolbar: 'bold italic | alignleft aligncenter alignright | code',
+		setup(editor) {
+			// Listen for keydown event to handle Tab key
+			editor.on('keydown', function (e) {
+				if (e.key === 'Tab') {
+					e.preventDefault(); // Prevent default tab behavior
+					editor.execCommand('mceInsertContent', false, '&emsp;&emsp;'); // Insert tab character
+				}
+			});
+		}
+	};
+
+	// DATA MANAGEMENT
+	export let data;
 
 	// AUTHENTICATION
 	let email: string = '';
 	let password: string = '';
 	let loggedIn = false;
+
+	// Home Page
+	let featuredMainArticle = '';
+	let featuredSubarticle1 = '';
+	let featuredSubarticle2 = '';
+	let listArticle1 = '';
+	let listArticle2 = '';
+	let listArticle3 = '';
+
+	// Business Page
+	let businessMainArticle = '';
+	let businessSubArticle = '';
+
+	// Tech Page
+	let techMainArticle = '';
+	let techSubArticle = '';
+
+	// Science Page
+	let scienceMainArticle = '';
+	let scienceSubArticle = '';
+
+	// DEFAULT DEV TITLE
+	let newTitle = 'This is a title';
+	let newAuthor = 'John Author';
+	let newDate = '05/19/2005';
+	let newCategory = 'Business';
+	let newDescription = 'This is a description';
+
+	let newImage = { type: '', src: '' };
+	let articleObject: Article;
+	let errorMessages: string[] = [];
+
+	let fields: ArticleContent[] = []; // Array to manage all fields
 
 	// Log in function
 	async function loginWithMail() {
@@ -41,55 +94,30 @@
 			});
 	}
 
-	// DATA MANAGEMENT
-	export let data;
-
-	// Home Page
-	let featuredMainArticle = '';
-	let featuredSubarticle1 = '';
-	let featuredSubarticle2 = '';
-	let listArticle1 = '';
-	let listArticle2 = '';
-	let listArticle3 = '';
-
-	// Business Page
-	let businessMainArticle = '';
-	let businessSubArticle = '';
-
-	// Tech Page
-	let techMainArticle = '';
-	let techSubArticle = '';
-
-	// Science Page
-	let scienceMainArticle = '';
-	let scienceSubArticle = '';
-
-	// New Article
-	// let newTitle = '';
-	// let newAuthor = '';
-	// let newDate = '';
-	// let newCategory = '';
-	// let newDescription = '';
-
-	// DEFAULT DEV TITLE
-	let newTitle = 'This is a title';
-	let newAuthor = 'John Author';
-	let newDate = '05/19/2005';
-	let newCategory = 'Business';
-	let newDescription = 'This is a description';
-
-	let newImage = { type: '', src: '' };
-	let articleObject: Article;
-	let errorMessages: string[] = [];
-
-	let fields: ArticleContent[] = []; // Array to manage all fields
-
+	// Add anything
 	function addContent(contentType: string) {
 		fields = [...fields, { type: contentType }];
 	}
 
+	// Data changes within a Paragraph box
+	function handleParagraphChange(event: any, index: number) {
+		console.log(event.target.value);
+		fields[index] = { type: 'paragraph', text: event.target.value };
+	}
+
+	// Data changes within a Header box
+	function handleHeaderChange(event: any, index: number) {
+		fields[index] = { type: 'header', text: event.target.value };
+	}
+
+	// Remove a field from the contenxt
+	function handleRemoveField(index: number) {
+		fields.splice(index, 1); // Remove the item at the specified index
+		fields = [...fields]; // Force reactivity
+		console.log(fields);
+	}
+
 	/**
-	 * @param {{ target: { files: any[]; }; }} event
 	 * @param {string | number} index
 	 */
 	function handleImageUpload(event: any, index = -1) {
@@ -115,20 +143,6 @@
 				};
 			}
 		}
-	}
-
-	function handleParagraphChange(event: any, index: number) {
-		fields[index] = { type: 'paragraph', text: event.target.value };
-	}
-
-	function handleHeaderChange(event: any, index: number) {
-		fields[index] = { type: 'header', text: event.target.value };
-	}
-
-	function handleRemoveField(index: number) {
-		fields.splice(index, 1); // Remove the item at the specified index
-		fields = [...fields]; // Force reactivity
-		console.log(fields);
 	}
 
 	/**
@@ -387,107 +401,77 @@
 	<!-- New Article Page -->
 	<input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="Create" />
 	<div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
-		<!-- {#if loggedIn} -->
-		<div class="flex flex-col gap-2 px-5">
-			<!-- Basic Info -->
-			<div class="text-2xl font-semibold">Basic Info:</div>
-			<label class="input input-bordered flex items-center gap-2">
-				Title:
-				<input bind:value={newTitle} type="text" class="grow" placeholder="Grapes of Wrath" />
-			</label>
-			<label class="input input-bordered flex items-center gap-2">
-				Author:
-				<input bind:value={newAuthor} type="text" class="grow" placeholder="John Steinbeck" />
-			</label>
-			<label class="input input-bordered flex items-center gap-2">
-				Date:
-				<input bind:value={newDate} type="text" class="grow" placeholder="April 14, 1939" />
-			</label>
-			<label class="input input-bordered flex items-center gap-2">
-				Description:
-				<input
-					bind:value={newDescription}
-					type="text"
-					class="grow"
-					placeholder="1-2 sentence description."
-				/>
-			</label>
-			<select
-				bind:value={newCategory}
-				class="select select-bordered flex-wrap bg-white border text-md py-1 px-4 rounded-lg"
-			>
-				<option value="" disabled selected hidden>Category</option>
-				<option value="Business">Business</option>
-				<option value="Technology">Technology</option>
-				<option value="Science">Science</option>
-			</select>
-			<div>
-				<label class="form-control w-full">
-					<div class="label p-0 ps-3 pb-1 -mt-1">
-						<span class="label-text">Cover photo:</span>
-					</div>
+		{#if !loggedIn}
+			<div class="flex flex-col gap-2 px-5">
+				<!-- Basic Info -->
+				<div class="text-2xl font-semibold">Basic Info:</div>
+				<label class="input input-bordered flex items-center gap-2">
+					Title:
+					<input bind:value={newTitle} type="text" class="grow" placeholder="Grapes of Wrath" />
+				</label>
+				<label class="input input-bordered flex items-center gap-2">
+					Author:
+					<input bind:value={newAuthor} type="text" class="grow" placeholder="John Steinbeck" />
+				</label>
+				<label class="input input-bordered flex items-center gap-2">
+					Date:
+					<input bind:value={newDate} type="text" class="grow" placeholder="April 14, 1939" />
+				</label>
+				<label class="input input-bordered flex items-center gap-2">
+					Description:
 					<input
-						type="file"
-						class="file-input file-input-bordered file-input-accent w-full"
-						on:change={(event) => handleImageUpload(event, -1)}
+						bind:value={newDescription}
+						type="text"
+						class="grow"
+						placeholder="1-2 sentence description."
 					/>
 				</label>
-
-				{#if newImage.src}
-					<img
-						src={newImage.src}
-						alt="Title img"
-						class="w-1/3 m-5 aspect-[4/3] object-cover rounded-lg"
-					/>
-				{/if}
-			</div>
-
-			<!-- Article Content -->
-			<div class="text-2xl font-semibold mt-5">Article:</div>
-			<div class="flex flex-col p-5 bg-zinc-100 rounded-lg border border-separate">
-				{#each fields as field, index}
-					{#if field.type === 'paragraph'}
-						<div class="flex flex-row w-full">
-							<textarea
-								class="grow mb-3 me-1 textarea textarea-bordered leading-5"
-								placeholder="Paragraph"
-								value={field.text ? field.text : ''}
-								on:change={(event) => handleParagraphChange(event, index)}
-							/>
-							<button
-								class="btn btn-sm bg-zinc-200 hover:bg-zinc-300"
-								on:click={() => handleRemoveField(index)}
-							>
-								<span class="text-zinc-600">x</span>
-							</button>
+				<select
+					bind:value={newCategory}
+					class="select select-bordered flex-wrap bg-white border text-md py-1 px-4 rounded-lg"
+				>
+					<option value="" disabled selected hidden>Category</option>
+					<option value="Business">Business</option>
+					<option value="Technology">Technology</option>
+					<option value="Science">Science</option>
+				</select>
+				<div>
+					<label class="form-control w-full">
+						<div class="label p-0 ps-3 pb-1 -mt-1">
+							<span class="label-text">Cover photo:</span>
 						</div>
-					{:else if field.type === 'header'}
-						<div class="flex flex-row w-full">
-							<input
-								class="grow mb-3 me-1 input input-bordered leading-5 font-bold"
-								type="text"
-								placeholder="Header"
-								value={field.text ? field.text : ''}
-								on:change={(event) => handleHeaderChange(event, index)}
-							/>
+						<input
+							type="file"
+							class="file-input file-input-bordered file-input-accent w-full"
+							on:change={(event) => handleImageUpload(event, -1)}
+						/>
+					</label>
 
-							<button
-								class="btn btn-sm bg-zinc-200 hover:bg-zinc-300"
-								on:click={() => handleRemoveField(index)}
-							>
-								<span class="text-zinc-600">x</span>
-							</button>
-						</div>
-					{:else if field.type === 'image'}
-						<div class="mb-3">
-							<div class="flex flex-row">
-								<input
-									type="file"
-									accept="image/*"
-									on:change={(event) => handleImageUpload(event, index)}
-									FileList={field.src ? [{ name: field.src }] : []}
-									class="file-input file-input-bordered file-input-accent w-full me-1"
-								/>
+					{#if newImage.src}
+						<img
+							src={newImage.src}
+							alt="Title img"
+							class="w-1/3 m-5 aspect-[4/3] object-cover rounded-lg"
+						/>
+					{/if}
+				</div>
+
+				<!-- Article Content -->
+				<div class="text-2xl font-semibold mt-5">Article:</div>
+				<div class="flex flex-col p-5 bg-zinc-100 rounded-lg border border-separate">
+					{#each fields as field, index}
+						{#if field.type === 'paragraph'}
+							<!-- Paragraph content -->
+							<div class="flex flex-row w-full">
+								<div class="grow w-full ms-1">
+									<Editor
+										licenseKey="nr5tfa2k70yvg1zbuzu2rvguuhr5d4paqwbg3xp966forabr"
+										scriptSrc="tinymce/tinymce.min.js"
+										bind:value={field.text}
+										conf={tinymceConfig}
+									/>
+								</div>
+
 								<button
 									class="btn btn-sm bg-zinc-200 hover:bg-zinc-300"
 									on:click={() => handleRemoveField(index)}
@@ -495,46 +479,82 @@
 									<span class="text-zinc-600">x</span>
 								</button>
 							</div>
-
-							{#if field.src}
-								<img
-									src={field.src}
-									alt="Title img"
-									class="w-1/3 m-5 aspect-[4/3] object-cover rounded-md"
+						{:else if field.type === 'header'}
+							<!-- Header content -->
+							<div class="flex flex-row w-full">
+								<input
+									class="grow mb-3 me-1 input input-bordered leading-5 font-bold"
+									type="text"
+									placeholder="Header"
+									value={field.text ? field.text : ''}
+									on:change={(event) => handleHeaderChange(event, index)}
 								/>
-							{/if}
-						</div>
-					{/if}
-				{/each}
 
-				<!-- Add options -->
-				<div class="flex flex-row my-1">
-					<button class="btn btn-sm btn-primary me-2" on:click={() => addContent('paragraph')}>
-						+ Paragraph
-					</button>
-					<button class="btn btn-sm btn-primary me-2" on:click={() => addContent('header')}>
-						+ Header
-					</button>
-					<button class="btn btn-sm btn-accent" on:click={() => addContent('image')}>
-						+ Image
-					</button>
+								<button
+									class="btn btn-sm bg-zinc-200 hover:bg-zinc-300"
+									on:click={() => handleRemoveField(index)}
+								>
+									<span class="text-zinc-600">x</span>
+								</button>
+							</div>
+						{:else if field.type === 'image'}
+							<!-- Image content -->
+							<div class="mb-3">
+								<div class="flex flex-row">
+									<input
+										type="file"
+										accept="image/*"
+										on:change={(event) => handleImageUpload(event, index)}
+										FileList={field.src ? [{ name: field.src }] : []}
+										class="file-input file-input-bordered file-input-accent w-full me-1"
+									/>
+									<button
+										class="btn btn-sm bg-zinc-200 hover:bg-zinc-300"
+										on:click={() => handleRemoveField(index)}
+									>
+										<span class="text-zinc-600">x</span>
+									</button>
+								</div>
+
+								{#if field.src}
+									<img
+										src={field.src}
+										alt="Title img"
+										class="w-1/3 m-5 aspect-[4/3] object-cover rounded-md"
+									/>
+								{/if}
+							</div>
+						{/if}
+					{/each}
+
+					<!-- Add options -->
+					<div class="flex flex-row my-1">
+						<button class="btn btn-sm btn-primary me-2" on:click={() => addContent('paragraph')}>
+							+ Paragraph
+						</button>
+						<button class="btn btn-sm btn-primary me-2" on:click={() => addContent('header')}>
+							+ Header
+						</button>
+						<button class="btn btn-sm btn-accent" on:click={() => addContent('image')}>
+							+ Image
+						</button>
+					</div>
+				</div>
+
+				<div class="mt-5 justify-items-center">
+					{#each errorMessages as message}
+						<div class="text-red-400 text-sm mb-1">{message}</div>
+					{/each}
+					<button class="btn text-lg bg-green-600 hover:bg-green-700 w-full" on:click={handleSubmit}
+						>Publish Article</button
+					>
 				</div>
 			</div>
-
-			<div class="mt-5 justify-items-center">
-				{#each errorMessages as message}
-					<div class="text-red-400 text-sm mb-1">{message}</div>
-				{/each}
-				<button class="btn text-lg bg-green-600 hover:bg-green-700 w-full" on:click={handleSubmit}
-					>Publish Article</button
-				>
-			</div>
-		</div>
-		<!-- {:else}
+		{:else}
 			<div class="w-full text-center flex justify-center">
 				<div>Please log in first</div>
 			</div>
-		{/if} -->
+		{/if}
 	</div>
 </div>
 
@@ -542,7 +562,6 @@
 	.btn {
 		color: white;
 	}
-
 	.input,
 	.select,
 	.file-input {

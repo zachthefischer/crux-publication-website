@@ -31,7 +31,7 @@
 			src={data.article.image.src}
 			alt={data.article.description}
 		/>
-		<p class="text-zinc-500 mt-1 font-light">Photo Credits: Tobias B. Determined</p>
+		<!-- <p class="text-zinc-500 mt-1 font-light">Photo Credits: Tobias B. Determined</p> -->
 
 		<br />
 
@@ -49,7 +49,7 @@
 				{:else if content.type === 'header'}
 					<p class="mb-4 text-xl md:text-2xl 2xl:leading-7 font-bold">{content.text}</p>
 				{:else if content.type === 'paragraph'}
-					<p class="mb-4 text-lg md:text-xl 2xl:leading-7">{content.text}</p>
+					<div class="mb-4 text-lg md:text-xl 2xl:leading-7">{@html content.text}</div>
 				{/if}
 			{/each}
 		</div>
