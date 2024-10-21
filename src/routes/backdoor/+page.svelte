@@ -401,7 +401,7 @@
 	<!-- New Article Page -->
 	<input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="Create" />
 	<div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
-		{#if !loggedIn}
+		{#if loggedIn}
 			<div class="flex flex-col gap-2 px-5">
 				<!-- Basic Info -->
 				<div class="text-2xl font-semibold">Basic Info:</div>
