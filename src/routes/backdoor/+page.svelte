@@ -19,8 +19,8 @@
 	// TinyMCE config with event handler
 	let tinymceConfig = {
 		menubar: true,
+		height: 200,
 		plugins: 'link code',
-		toolbar: 'bold italic | alignleft aligncenter alignright | code',
 		setup(editor) {
 			// Listen for keydown event to handle Tab key
 			editor.on('keydown', function (e) {
@@ -64,7 +64,7 @@
 	let newTitle = 'This is a title';
 	let newAuthor = 'John Author';
 	let newDate = '05/19/2005';
-	let newCategory = 'Business';
+	let newCategories = [];
 	let newDescription = 'This is a description';
 
 	let newImage = { type: '', src: '' };
@@ -158,7 +158,7 @@
 			title: newTitle,
 			author: newAuthor,
 			date: newDate,
-			category: newCategory,
+			categories: newCategories,
 			description: newDescription,
 			image: newImage,
 			content: fields
@@ -184,7 +184,7 @@
 		if (!newDate) {
 			errorMessages.push('Date field is invalid');
 		}
-		if (!newCategory) {
+		if (!newCategories) {
 			errorMessages.push('Category field is invalid');
 		}
 		if (!newDescription) {
@@ -209,7 +209,7 @@
 	}
 </script>
 
-<div role="tablist" class="w-1/2 mx-auto my-10 tabs tabs-lifted">
+<div role="tablist" class="w-3/4 mx-auto my-10 tabs tabs-lifted max-w-screen-lg">
 	<!-- Authenticate Section -->
 	<input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="Login" checked={true} />
 
@@ -401,7 +401,7 @@
 	<!-- New Article Page -->
 	<input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="Create" />
 	<div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
-		{#if loggedIn}
+		{#if !loggedIn}
 			<div class="flex flex-col gap-2 px-5">
 				<!-- Basic Info -->
 				<div class="text-2xl font-semibold">Basic Info:</div>
@@ -427,10 +427,10 @@
 					/>
 				</label>
 				<select
-					bind:value={newCategory}
+					bind:value={newCategories}
 					class="select select-bordered flex-wrap bg-white border text-md py-1 px-4 rounded-lg"
+					multiple
 				>
-					<option value="" disabled selected hidden>Category</option>
 					<option value="Business">Business</option>
 					<option value="Technology">Technology</option>
 					<option value="Science">Science</option>
@@ -463,7 +463,7 @@
 						{#if field.type === 'paragraph'}
 							<!-- Paragraph content -->
 							<div class="flex flex-row w-full">
-								<div class="grow w-full ms-1">
+								<div class="mb-3 me-1 grow w-full ms-1">
 									<Editor
 										licenseKey="nr5tfa2k70yvg1zbuzu2rvguuhr5d4paqwbg3xp966forabr"
 										scriptSrc="tinymce/tinymce.min.js"

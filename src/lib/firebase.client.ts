@@ -68,7 +68,7 @@ export async function addArticle(article : Article) {
             title: article.title,
             author: article.author,
             date: article.date,
-            category: article.categories,
+            categories: article.categories,
             description: article.description,
             image: sanitizedImage,
             content: sanitizedContent,
