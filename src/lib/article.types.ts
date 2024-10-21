@@ -3,7 +3,7 @@ export interface Article {
     title       : string,
     author      : string,
     date        : string,
-    category    : Category,
+    categories  : Category[],
     description : string,
     image       : ArticleContent
     content     : ArticleContent[]
@@ -17,4 +17,4 @@ export interface ArticleContent {
     text     ?: string   // Paragraph
 }
 
-export type Category = 'Business' | 'Technology' | 'Science' | 'All';
+export type Category = 'Business' | 'Technology' | 'Science' | 'All' | 'OpEd' | 'Creative' | 'Commentary'; 

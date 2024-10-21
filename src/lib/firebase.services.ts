@@ -10,7 +10,7 @@ export async function getArticles(category : Category) {
     if (category == 'All') {
         q = query(collection(db, 'articles'));
     } else {
-        q = query(collection(db, 'articles'), where('category', '==', category));
+        q = query(collection(db, 'articles'), where('categories', 'array-contains', category));
     }
     
     const querySnapshot = await getDocs(q);
@@ -22,7 +22,7 @@ export async function getArticles(category : Category) {
             title       : doc.data()?.title,
             author      : doc.data()?.author,
             date        : doc.data()?.date,
-            category    : doc.data()?.category,
+            categories  : doc.data()?.categories,
             description : doc.data()?.description,
             image       : image,
             content     : []
@@ -60,7 +60,7 @@ export async function loadArticle(slug : string){
             title       : docSnap.data()?.title,
             author      : docSnap.data()?.author,
             date        : docSnap.data()?.date,
-            category    : docSnap.data()?.category,
+            categories  : docSnap.data()?.categories,
             description : docSnap.data()?.description,
             image       : mainImage,
             content     : docSnap.data()?.content

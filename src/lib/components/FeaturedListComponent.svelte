@@ -16,7 +16,7 @@
 			<a href="/article/{article.slug}">
 				<div class="px-4 py-2">
 					<!-- Category -->
-					<div class="text-accent font-bold">{article.category}</div>
+					<div class="text-accent font-bold">{article?.categories[0]}</div>
 					<!-- Title -->
 					<p
 						class="text-lg font-bold font-mono md:line-clamp-3 leading-6 text-zinc-700 hover:text-accent"

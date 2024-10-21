@@ -27,7 +27,7 @@
 
 		<!-- Author/date -->
 		<div class="flex flex-row justify-between 3 text-sm md:text-md px-4 pb-2 text-zinc-500">
-			<p class="text-accent font-bold">{article.category}</p>
+			<p class="text-accent font-bold">{article.categories[0]}</p>
 			<p>{article.date}</p>
 		</div>
 	</div>

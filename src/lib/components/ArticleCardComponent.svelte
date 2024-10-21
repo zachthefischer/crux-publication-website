@@ -26,8 +26,8 @@
 				<div><b>{article.author}</b> {article.date}</div>
 				<div>
 					<a
-						href="/archive/{article.category}"
-						class="hover:text-success text-accent font-bold font-mono">{article.category}</a
+						href="/archive/{article.categories[0]}"
+						class="hover:text-success text-accent font-bold font-mono">{article.categories[0]}</a
 					>
 				</div>
 			</div>

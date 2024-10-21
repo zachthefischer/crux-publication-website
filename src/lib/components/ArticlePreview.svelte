@@ -16,7 +16,7 @@
 			/>
 
 			<!-- Category -->
-			<p class="flex-none text-md text-accent font-bold mt-1">{article.category}</p>
+			<p class="flex-none text-md text-accent font-bold mt-1">{article.categories[0]}</p>
 			<!-- Title -->
 			<p
 				class="flex-none text-xl font-bold font-mono text-zinc-700 group-hover:text-accent ease-in duration-200"
@@ -38,7 +38,7 @@
 		<div class="hidden md:flex flex-row justify-between">
 			<div class="flex flex-col me-5">
 				<!-- Category -->
-				<p class="flex-none text-lg text-accent font-bold">{article.category}</p>
+				<p class="flex-none text-lg text-accent font-bold">{article.categories[0]}</p>
 
 				<!-- Title -->
 				<p

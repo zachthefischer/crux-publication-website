@@ -6,6 +6,7 @@
 	import pfp_aadi from '$lib/assets/pfps/Aadi_Ajmire_Interviewer.png';
 	import pfp_jonny from '$lib/assets/pfps/Jonny_Dippery_Writer.jpg';
 	import pfp_ting from '$lib/assets/pfps/Ting_Wu_Analyst.png';
+	import pfp_abby from '$lib/assets/pfps/Abby_Lin_Author.jpeg';
 
 	const team = [
 		{
@@ -26,12 +27,17 @@
 		{
 			name: 'Jonny Dippery',
 			profilePic: pfp_jonny,
-			title: 'Writer'
+			title: 'Author'
 		},
 		{
-			name: 'Ting Wu',
+			name: 'Xiangting Wu',
 			profilePic: pfp_ting,
 			title: 'Analyst'
+		},
+		{
+			name: 'Abby Lin',
+			profilePic: pfp_abby,
+			title: 'Author'
 		}
 	];
 </script>
