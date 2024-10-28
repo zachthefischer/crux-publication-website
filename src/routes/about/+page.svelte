@@ -96,7 +96,9 @@
 	<!-- Our mission -->
 	<div class="p-5 rounded-xl bg-white/85 border mb-8">
 		<p class="text-4xl font-bold mb-4">Contact us yo</p>
-		<p>Email us: <a class="font-bold" href="https://www.cruxucla.com/">write2crux@gmail.com</a></p>
+		<p>
+			Email us: <a class="font-bold" href="https://www.cruxucla.com/">cruxneurotech@g.ucla.edu</a>
+		</p>
 		<p>Call us? <a class="font-bold" href="https://neurotechx.com/">408-201-2443</a></p>
 		<p>
 			Join the newsletter! <a class="font-bold" href="https://www.cruxucla.com/"
