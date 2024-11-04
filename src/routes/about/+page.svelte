@@ -95,15 +95,14 @@
 
 	<!-- Our mission -->
 	<div class="p-5 rounded-xl bg-white/85 border mb-8">
-		<p class="text-4xl font-bold mb-4">Contact us yo</p>
+		<p class="text-4xl font-bold mb-4">Contact Us</p>
 		<p>
-			Email us: <a class="font-bold" href="https://www.cruxucla.com/">cruxneurotech@g.ucla.edu</a>
+			Email:
+			<span class="font-bold">cruxneurotech@g.ucla.edu</span>
 		</p>
-		<p>Call us? <a class="font-bold" href="https://neurotechx.com/">408-201-2443</a></p>
+
 		<p>
-			Join the newsletter! <a class="font-bold" href="https://www.cruxucla.com/"
-				>(it's down there)</a
-			>
+			Visit the <a class="underline" href="https://www.cruxucla.com/">CruX parent website</a>
 		</p>
 	</div>
 </div>
