@@ -25,12 +25,14 @@
 			<p>{data.article.date}</p>
 		</div>
 
-		<!-- Image -->
+		<!-- TITLE IMAGE -->
+		<!-- Image src has been processed during fetch -->
 		<img
 			class="rounded-2xl w-max-full aspect-[5/3] object-contain"
 			src={data.article.image.src}
 			alt={data.article.description}
 		/>
+
 		<!-- IMAGE CREDITS -->
 		<!-- <p class="text-zinc-500 mt-1 font-light">Photo Credits: Tobias B. Determined</p> -->
 
@@ -42,7 +44,7 @@
 		>
 			{#each data.article.content as content, index}
 				{#if content.type === 'image'}
-					<img class="w-1/2 object-cover mx-auto mb-4" src={content?.src} alt={''} />
+					<img class="w-1/2 object-cover mx-auto mb-4" src={content?.src} alt={'Image'} />
 				{:else if content.type === 'header'}
 					<p class="mb-4 text-xl md:text-2xl 2xl:leading-7 font-bold">{content.text}</p>
 				{:else if content.type === 'paragraph'}

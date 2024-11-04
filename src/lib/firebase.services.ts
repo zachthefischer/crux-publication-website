@@ -72,12 +72,13 @@ export async function loadArticle(slug : string){
             content     : docSnap.data()?.content
          };
 
-        await article.content.forEach(async (segment : ArticleContent) => {
+        article.content = await Promise.all(article.content.map(async (segment: ArticleContent) => {
             if (segment.type === 'image') {
                 segment = await getImage(segment);
             }
-        })
-
+            return segment;
+        }));
+        
         console.log('Article:' , article);
     } else {
         console.error('No such document!');
