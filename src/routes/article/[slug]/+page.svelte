@@ -50,7 +50,9 @@
 				{:else if content.type === 'paragraph'}
 					<div class="mb-4 text-lg md:text-xl 2xl:leading-7">{@html content.text}</div>
 				{:else if content.type === 'video'}
-					<div class="rounded-2xl w-3/4 mx-auto aspect-[5/3] overflow-hidden mb-4">
+					<div
+						class="rounded-lg md:rounded-xl lg:rounded-2xl w-4/5 mx-auto aspect-[16/9] overflow-hidden mb-6"
+					>
 						<iframe
 							class="w-full h-full"
 							src={content?.src}
