@@ -49,6 +49,18 @@
 					<p class="mb-4 text-xl md:text-2xl 2xl:leading-7 font-bold">{content.text}</p>
 				{:else if content.type === 'paragraph'}
 					<div class="mb-4 text-lg md:text-xl 2xl:leading-7">{@html content.text}</div>
+				{:else if content.type === 'video'}
+					<div class="rounded-2xl w-3/4 mx-auto aspect-[5/3] overflow-hidden">
+						<iframe
+							class="w-full h-full"
+							src={content?.src}
+							title="YouTube video player"
+							frameborder="0"
+							allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+							allowfullscreen
+						>
+						</iframe>
+					</div>
 				{/if}
 			{/each}
 		</div>

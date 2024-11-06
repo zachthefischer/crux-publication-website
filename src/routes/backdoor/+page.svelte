@@ -110,6 +110,10 @@
 		fields[index] = { type: 'header', text: event.target.value };
 	}
 
+	function handleVideoChange(event: any, index: number) {
+		fields[index] = { type: 'video', src: event.target.value };
+	}
+
 	// Remove a field from the contenxt
 	function handleRemoveField(index: number) {
 		fields.splice(index, 1); // Remove the item at the specified index
@@ -524,19 +528,40 @@
 									/>
 								{/if}
 							</div>
+						{:else if field.type === 'video'}
+							<!-- Video content -->
+							<div class="flex flex-row w-full">
+								<input
+									class="grow mb-3 me-1 input input-bordered leading-5"
+									type="text"
+									placeholder="Video embed link"
+									value={field.src ? field.src : ''}
+									on:change={(event) => handleVideoChange(event, index)}
+								/>
+
+								<button
+									class="btn btn-sm bg-zinc-200 hover:bg-zinc-300"
+									on:click={() => handleRemoveField(index)}
+								>
+									<span class="text-zinc-600">x</span>
+								</button>
+							</div>
 						{/if}
 					{/each}
 
-					<!-- Add options -->
+					<!-- Add Buttons -->
 					<div class="flex flex-row my-1">
-						<button class="btn btn-sm btn-primary me-2" on:click={() => addContent('paragraph')}>
+						<button class="btn btn-sm btn-primary mx-1" on:click={() => addContent('paragraph')}>
 							+ Paragraph
 						</button>
-						<button class="btn btn-sm btn-primary me-2" on:click={() => addContent('header')}>
+						<button class="btn btn-sm btn-primary mx-1" on:click={() => addContent('header')}>
 							+ Header
 						</button>
-						<button class="btn btn-sm btn-accent" on:click={() => addContent('image')}>
+						<button class="btn btn-sm btn-accent mx-1" on:click={() => addContent('image')}>
 							+ Image
+						</button>
+						<button class="btn btn-sm btn-video mx-1" on:click={() => addContent('video')}>
+							+ Video
 						</button>
 					</div>
 				</div>
@@ -567,5 +592,9 @@
 	.file-input {
 		height: 40px !important;
 		min-height: 10px !important;
+	}
+
+	.btn-video {
+		background-color: brown;
 	}
 </style>

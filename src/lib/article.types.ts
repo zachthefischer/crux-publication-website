@@ -10,7 +10,7 @@ export interface Article {
 }
 
 export interface ArticleContent {
-    type      : 'image' | 'paragraph' | 'header',
+    type      : 'image' | 'paragraph' | 'header' | 'video',
     src      ?: string,  // Images
     file     ?: File,    // Images
     fileName ?: string   // Images

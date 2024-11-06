@@ -4,7 +4,7 @@ import type { Article } from './article.types';
 export const dummyArticle : Article = {
     slug            : undefined,
     title           : '',
-    category        : 'All',
+    categories      : ['All'],
     description     : 'Loading',
     image           : { type: 'image', fileName: 'Loading.gif', src: LoadingGif },
     author          : '',
