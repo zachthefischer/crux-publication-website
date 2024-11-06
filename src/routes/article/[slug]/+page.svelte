@@ -28,7 +28,7 @@
 		<!-- TITLE IMAGE -->
 		<!-- Image src has been processed during fetch -->
 		<img
-			class="rounded-2xl w-max-full aspect-[5/3] object-contain"
+			class="w-max-full aspect-[5/3] object-contain"
 			src={data.article.image.src}
 			alt={data.article.description}
 		/>
@@ -50,7 +50,7 @@
 				{:else if content.type === 'paragraph'}
 					<div class="mb-4 text-lg md:text-xl 2xl:leading-7">{@html content.text}</div>
 				{:else if content.type === 'video'}
-					<div class="rounded-2xl w-3/4 mx-auto aspect-[5/3] overflow-hidden">
+					<div class="rounded-2xl w-3/4 mx-auto aspect-[5/3] overflow-hidden mb-4">
 						<iframe
 							class="w-full h-full"
 							src={content?.src}
