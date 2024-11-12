@@ -23,7 +23,7 @@
 
 {#if data}
 	<!-- Featured Section -->
-	<div class="mx-auto p-3 w-[90%] md:w-3/4 lg:w-3/5 mt-5 z-10 mb-2">
+	<div class="mx-auto p-3 w-full md:w-3/4 lg:w-3/5 mt-1 md:mt-5 z-10 mb-2">
 		<!-- Mobile view -->
 		<div class="block md:hidden col">
 			<FeaturedArticleComponent article={data.featuredArticles[0]}></FeaturedArticleComponent>
