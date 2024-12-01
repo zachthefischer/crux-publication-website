@@ -14,8 +14,7 @@ export interface ArticleContent {
     src         ?: string,  // Images
     file        ?: File,    // Images
     fileName    ?: string   // Images
-    text        ?: string   // Paragraph
-    custom_html ?: string   // Custom HTML
+    text        ?: string   // Paragraph, Custom HTML
 }
 
 export type Category = 'Business' | 'Technology' | 'Science' | 'All' | 'OpEd' | 'Creative' | 'Commentary'; 

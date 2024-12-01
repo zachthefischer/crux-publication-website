@@ -2,6 +2,14 @@
 import daisyui from "daisyui"
 export default {
   content: ['./src/**/*.{html,js,svelte,ts}'],
+  safelist: [
+    'font-sans',
+    'aspect-[3/2]',
+    'object-cover',
+    'hover:text-[#315AB0]',
+    'duration-150',
+    'ease-in'
+  ],
   theme: {
     extend: {},
     container: {
