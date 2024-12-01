@@ -78,7 +78,7 @@
 				</div>
 
 				<div class="navbar-start hidden md:block"></div>
-				<div class="navbar-center hidden flex-none md:block p-0 w-[90%] md:w-3/4 lg:w-3/5">
+				<div class=" hidden flex-none md:block p-0 w-[90%] md:w-3/4 lg:w-3/5">
 					<ul class="menu menu-horizontal w-full flex flex-col p-0">
 						<!-- Navbar menu content here -->
 						<div class="flex flex-row mx-auto">
@@ -88,24 +88,21 @@
 						<div class="w-full">
 							<ul
 								class="menu menu-horizontal p-0 pb-2 text-primary-content text-base flex justify-around"
-								style=""
 							>
 								<li class="hover:text-white">
-									<a class={path === '/' ? 'text-white' : ''} href="/">Home</a>
+									<a href="/">Home</a>
 								</li>
 								<li class="hover:text-white">
-									<a class={path === '/business' ? 'text-white' : ''} href="/business">Business</a>
+									<a href="/business">Business</a>
 								</li>
 								<li class="hover:text-white">
-									<a class={path === '/technology' ? 'text-white' : ''} href="/technology"
-										>Technology</a
-									>
+									<a href="/technology">Technology</a>
 								</li>
 								<li class="hover:text-white">
-									<a class={path === '/science' ? 'text-white' : ''} href="/science">Science</a>
+									<a href="/science">Science</a>
 								</li>
 								<li class="hover:text-white">
-									<a class={path === '/about' ? 'text-white' : ''} href="/about">About</a>
+									<a href="/about">About</a>
 								</li>
 							</ul>
 						</div>

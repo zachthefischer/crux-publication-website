@@ -110,6 +110,11 @@
 		fields[index] = { type: 'header', text: event.target.value };
 	}
 
+	// Data changes within a Header box
+	function handleCustomHTMLChange(event: any, index: number) {
+		fields[index] = { type: 'custom_html', text: event.target.value };
+	}
+
 	function handleVideoChange(event: any, index: number) {
 		fields[index] = { type: 'video', src: event.target.value };
 	}
@@ -213,7 +218,7 @@
 	}
 </script>
 
-<div role="tablist" class="w-3/4 mx-auto my-10 tabs tabs-lifted max-w-screen-lg">
+<div role="tablist" class="w-[90%] mx-auto my-10 tabs tabs-lifted max-w-screen-lg">
 	<!-- Authenticate Section -->
 	<input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="Login" checked={true} />
 
@@ -405,7 +410,7 @@
 	<!-- New Article Page -->
 	<input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="Create" />
 	<div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
-		{#if !loggedIn}
+		{#if loggedIn}
 			<div class="flex flex-col gap-2 px-5">
 				<!-- Basic Info -->
 				<div class="text-2xl font-semibold">Basic Info:</div>
@@ -467,7 +472,7 @@
 						{#if field.type === 'paragraph'}
 							<!-- Paragraph content -->
 							<div class="flex flex-row w-full">
-								<div class="mb-3 me-1 grow w-full ms-1">
+								<div class="mb-3 me-1 grow">
 									<Editor
 										licenseKey="nr5tfa2k70yvg1zbuzu2rvguuhr5d4paqwbg3xp966forabr"
 										scriptSrc="tinymce/tinymce.min.js"
@@ -487,7 +492,7 @@
 							<!-- Header content -->
 							<div class="flex flex-row w-full">
 								<input
-									class="grow mb-3 me-1 input input-bordered leading-5 font-bold"
+									class="mb-3 me-1 grow input input-bordered leading-5 font-bold"
 									type="text"
 									placeholder="Header"
 									value={field.text ? field.text : ''}
@@ -546,6 +551,23 @@
 									<span class="text-zinc-600">x</span>
 								</button>
 							</div>
+						{:else if field.type === 'custom_html'}
+							<!-- Video content -->
+							<div class="flex flex-row w-full">
+								<textarea
+									class="mb-3 me-1 grow w-full h-48 p-4 bg-gray-800 text-white font-mono text-sm rounded-lg border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+									placeholder="Custom HTML..."
+									value={field.customHTML ? field.customHTML : ''}
+									on:change={(event) => handleCustomHTMLChange(event, index)}
+								></textarea>
+
+								<button
+									class="btn btn-sm bg-zinc-200 hover:bg-zinc-300"
+									on:click={() => handleRemoveField(index)}
+								>
+									<span class="text-zinc-600">x</span>
+								</button>
+							</div>
 						{/if}
 					{/each}
 
@@ -562,6 +584,9 @@
 						</button>
 						<button class="btn btn-sm btn-video mx-1" on:click={() => addContent('video')}>
 							+ Video
+						</button>
+						<button class="btn btn-sm btn-custom mx-1" on:click={() => addContent('custom_html')}>
+							+ Custom HTML
 						</button>
 					</div>
 				</div>
@@ -596,5 +621,8 @@
 
 	.btn-video {
 		background-color: brown;
+	}
+	.btn-custom {
+		background-color: green;
 	}
 </style>

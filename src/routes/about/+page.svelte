@@ -12,26 +12,31 @@
 		{
 			name: 'Mark Lee',
 			profilePic: pfp_mark,
+			linkedin: 'https://www.linkedin.com/in/shinyoung-mark-lee-a502bb1b8/',
 			title: 'Publication Manager'
 		},
 		{
 			name: 'Zach Fischer',
 			profilePic: pfp_zach,
+			linkedin: 'https://www.linkedin.com/in/zfischer42/',
 			title: 'Webmaster'
 		},
 		{
 			name: 'Aadi Ajmire',
 			profilePic: pfp_aadi,
+			linkedin: 'https://www.linkedin.com/in/aadi-ajmire-077148206/',
 			title: 'Interviewer'
 		},
 		{
 			name: 'Jonny Dippery',
 			profilePic: pfp_jonny,
+			linkedin: 'https://www.linkedin.com/in/jonathan-dippery/',
 			title: 'Author'
 		},
 		{
 			name: 'Xiangting Wu',
 			profilePic: pfp_ting,
+			linkedin: 'https://www.linkedin.com/in/xiangting-wu-6a38a6223/',
 			title: 'Analyst'
 		},
 		{
@@ -75,20 +80,22 @@
 
 		<div class="flex flex-wrap justify-center gap-4">
 			{#each team as member}
-				<div
-					class="flex flex-col justify-center w-36 transition duration-200 ease-in hover:bg-zinc-200 hover:shadow p-2 rounded-lg"
-				>
-					<div class="mx-auto avatar mb-1">
-						<div class="w-24 rounded-full">
-							<img src={member.profilePic} alt="{member.name} profile pic" />
+				<a href={member.linkedin} target="_blank" class="hover:bg-blue">
+					<div
+						class="flex flex-col justify-center w-36 transition duration-200 ease-in hover:bg-zinc-200 hover:shadow p-2 rounded-lg"
+					>
+						<div class="mx-auto avatar mb-1">
+							<div class="w-24 rounded-full">
+								<img src={member.profilePic} alt="{member.name} profile pic" />
+							</div>
+						</div>
+
+						<div>
+							<p class="text-sm font-bold">{member.name}</p>
+							<p class="text-sm">{member.title}</p>
 						</div>
 					</div>
-
-					<div>
-						<p class="text-sm font-bold">{member.name}</p>
-						<p class="text-sm">{member.title}</p>
-					</div>
-				</div>
+				</a>
 			{/each}
 		</div>
 	</div>
