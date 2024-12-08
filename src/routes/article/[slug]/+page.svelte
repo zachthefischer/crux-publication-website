@@ -53,7 +53,7 @@
 					<img class="w-full object-cover mx-0 mb-7" src={content?.src} alt={'Image'} />
 				{:else if content.type === 'header'}
 					<!-- HEADER -->
-					<p class="mb-4 text-xl leading-3 font-[550] md:text-2xl md:leading-5 2xl:leading-7">
+					<p class="mb-4 text-xl leading-7 font-[550] md:text-2xl">
 						{content.text}
 					</p>
 				{:else if content.type === 'paragraph'}
@@ -80,13 +80,6 @@
 				{/if}
 			{/each}
 		</div>
-
-		<!-- READ NEXT -->
-		<!-- <div class=" bg-zinc-200 rounded-md my-5">
-			<div class="flex flex-row justify-center gap-2 text-zinc-500 mb-1 text-md md:text-md">
-				Human Objectivity and Reality Series
-			</div>
-		</div> -->
 	</div>
 {:else}
 	<div>LOADING</div>
