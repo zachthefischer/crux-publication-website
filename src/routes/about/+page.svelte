@@ -12,7 +12,7 @@
 		{
 			name: 'Mark Lee',
 			profilePic: pfp_mark,
-			linkedin: 'https://www.linkedin.com/in/shinyoung-mark-lee-a502bb1b8/',
+			linkedin: 'https://www.linkedin.com/in/mark-lee-a502bb1b8/',
 			title: 'Publication Manager'
 		},
 		{
