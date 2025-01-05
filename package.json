@@ -40,6 +40,7 @@
 		"@supabase/supabase-js": "^2.44.4",
 		"@tinymce/tinymce-svelte": "^3.0.0",
 		"firebase": "^10.13.2",
+		"flowbite-svelte": "^0.47.4",
 		"tinymce": "^7.4.1"
 	}
 }

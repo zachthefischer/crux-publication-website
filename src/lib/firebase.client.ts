@@ -45,7 +45,7 @@ export const initializeFirebase = () => {
 export async function addArticle(article : Article) {
     console.log('article:', article);
 
-    const slug = slugifyTitle(article.title);
+    const slug = (article.slug === '' ? slugifyTitle(article.title) : article.slug);
 
     // Add title image to Storage
     const fileRef = ref(storage, `files/${article.image.fileName}`);

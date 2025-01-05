@@ -20,7 +20,7 @@ export async function getArticles(category : Category) {
     articles = await Promise.all (querySnapshot.docs.map(async (doc) => {
         const image: ArticleContent = await getImage(doc.data()?.image as ArticleContent);
     
-        return {
+        const article = {
             slug        : doc.data()?.slug,
             title       : doc.data()?.title,
             author      : doc.data()?.author,
@@ -28,9 +28,20 @@ export async function getArticles(category : Category) {
             categories  : doc.data()?.categories,
             description : doc.data()?.description,
             image       : image,
-            content     : []
+            content     : doc.data()?.content
         };
+        
+        article.content = await Promise.all(article.content.map(async (segment: ArticleContent) => {
+            if (segment.type === 'image') {
+                segment = await getImage(segment);
+            }
+            return segment;
+        }));
+
+        return article;
+    
     }));
+    
 
     // Sort articles by date in descending order after fetching
     articles.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
@@ -51,7 +62,7 @@ export async function getImage(image : ArticleContent) : Promise<ArticleContent>
 }
 
 
-// Load selected articl and populate the images
+// Load selected article and populate the images
 export async function loadArticle(slug : string){
     const docRef = doc(db, 'articles', slug);
     const docSnap = await getDoc(docRef);

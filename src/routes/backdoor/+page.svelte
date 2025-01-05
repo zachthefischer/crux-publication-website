@@ -15,8 +15,57 @@
 	import type { Article, ArticleContent } from '$lib/article.types';
 	import FeaturedDropdownComponent from '$lib/components/FeaturedDropdownComponent.svelte';
 	import Editor from '@tinymce/tinymce-svelte';
+	import { Button, Modal } from 'flowbite-svelte';
 
-	// TinyMCE config with event handler
+	// DATA MANAGEMENT
+	export let data;
+
+	// AUTHENTICATION
+	let email: string = '';
+	let password: string = '';
+	let loggedIn = false;
+
+	// FEATURED ARTICLES
+	// Home Page
+	let featuredMainArticle = '';
+	let featuredSubarticle1 = '';
+	let featuredSubarticle2 = '';
+	let listArticle1 = '';
+	let listArticle2 = '';
+	let listArticle3 = '';
+	// Business Page
+	let businessMainArticle = '';
+	let businessSubArticle = '';
+	// Tech Page
+	let techMainArticle = '';
+	let techSubArticle = '';
+	// Science Page
+	let scienceMainArticle = '';
+	let scienceSubArticle = '';
+
+	// Load article
+	let articleSelectModal = false;
+	let selectedArticle = ''; // To store the selected article
+
+	// NEW ARTICLE
+	let articleStatus = 'Changes pending';
+	let newSlug = '';
+	let newTitle = 'This is a title';
+	let newAuthor = 'John Author';
+	let newDate = '05/19/2005';
+	let newCategories = [];
+	const categories = ['Business', 'Technology', 'Science'];
+	let otherCategory = ''; // Store the value for "Other" input
+
+	let newDescription = 'This is a description';
+
+	let newImage = { type: '', src: '' };
+	let articleObject: Article;
+	let errorMessages: string[] = [];
+
+	let fields: ArticleContent[] = []; // Array to manage all fields
+
+	// TinyMCE config with event handler (for text fields )
 	let tinymceConfig = {
 		menubar: true,
 		height: 300,
@@ -31,47 +80,6 @@
 			});
 		}
 	};
-
-	// DATA MANAGEMENT
-	export let data;
-
-	// AUTHENTICATION
-	let email: string = '';
-	let password: string = '';
-	let loggedIn = false;
-
-	// Home Page
-	let featuredMainArticle = '';
-	let featuredSubarticle1 = '';
-	let featuredSubarticle2 = '';
-	let listArticle1 = '';
-	let listArticle2 = '';
-	let listArticle3 = '';
-
-	// Business Page
-	let businessMainArticle = '';
-	let businessSubArticle = '';
-
-	// Tech Page
-	let techMainArticle = '';
-	let techSubArticle = '';
-
-	// Science Page
-	let scienceMainArticle = '';
-	let scienceSubArticle = '';
-
-	// DEFAULT DEV TITLE
-	let newTitle = 'This is a title';
-	let newAuthor = 'John Author';
-	let newDate = '05/19/2005';
-	let newCategories = [];
-	let newDescription = 'This is a description';
-
-	let newImage = { type: '', src: '' };
-	let articleObject: Article;
-	let errorMessages: string[] = [];
-
-	let fields: ArticleContent[] = []; // Array to manage all fields
 
 	// Log in function
 	async function loginWithMail() {
@@ -97,6 +105,23 @@
 	// Add anything
 	function addContent(contentType: string) {
 		fields = [...fields, { type: contentType }];
+	}
+
+	// Toggle categories
+	function toggleCategory(category) {
+		if (newCategories.includes(category)) {
+			// Remove the category if already selected
+			newCategories = newCategories.filter((c) => c !== category);
+		} else {
+			// Add the category if not already selected
+			newCategories = [...newCategories, category];
+		}
+	}
+	function handleOtherOptionChange(event) {
+		otherCategory = event.target.value;
+		if (!newCategories.includes('Other')) {
+			newCategories = [...newCategories, 'Other'];
+		}
 	}
 
 	// Data changes within a Paragraph box
@@ -157,13 +182,17 @@
 	/**
 	 * Function runs when "Publish Article" button is pressed
 	 */
-	function handleSubmit() {
+	async function handleSubmit() {
+		articleStatus = 'Loading';
+
 		// Validate all fields
 		if (validateFields()) {
+			articleStatus = 'Changes pending';
 			return;
 		}
 
 		articleObject = {
+			slug: newSlug,
 			title: newTitle,
 			author: newAuthor,
 			date: newDate,
@@ -174,7 +203,14 @@
 		};
 
 		console.log('finished object:', articleObject);
-		addArticle(articleObject);
+		try {
+			await addArticle(articleObject); // Await the function
+			console.log('Article added successfully!');
+			articleStatus = 'Article added successfully!';
+		} catch (error) {
+			console.error('Error adding article:', error);
+			articleStatus = 'Failed to add article';
+		}
 	}
 
 	/**
@@ -408,12 +444,19 @@
 	</div>
 
 	<!-- New Article Page -->
-	<input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="Create" />
+	<input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="Edit" />
 	<div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
-		{#if loggedIn}
+		<!-- CHANGE BACK -->
+		{#if !loggedIn}
 			<div class="flex flex-col gap-2 px-5">
-				<!-- Basic Info -->
-				<div class="text-2xl font-semibold">Basic Info:</div>
+				<!-- Metadata -->
+				<div class="flex flex-row justify-between">
+					<div class="text-3xl font-bold">Metadata:</div>
+					<!-- Modal toggle -->
+					<Button class="bg-zinc-200 " on:click={() => (articleSelectModal = true)}
+						><span class="text-zinc-700">Select Article</span></Button
+					>
+				</div>
 				<label class="input input-bordered flex items-center gap-2">
 					Title:
 					<input bind:value={newTitle} type="text" class="grow" placeholder="Grapes of Wrath" />
@@ -435,19 +478,47 @@
 						placeholder="1-2 sentence description."
 					/>
 				</label>
-				<select
-					bind:value={newCategories}
-					class="select select-bordered flex-wrap bg-white border text-md py-1 px-4 rounded-lg"
-					multiple
-				>
-					<option value="Business">Business</option>
-					<option value="Technology">Technology</option>
-					<option value="Science">Science</option>
-				</select>
+				<div class="flex flex-col space-y-2 mt-2">
+					{#each categories as category}
+						<label class="flex items-center space-x-2">
+							<input
+								type="checkbox"
+								value={category}
+								checked={newCategories.includes(category)}
+								on:change={() => toggleCategory(category)}
+								class="checkbox checkbox-bordered"
+							/>
+							<span>{category}</span>
+						</label>
+					{/each}
+
+					<!-- Other option -->
+					<label class="flex items-center space-x-2">
+						<input
+							type="checkbox"
+							value="Other"
+							checked={newCategories.includes('Other')}
+							on:change={() => toggleCategory('Other')}
+							class="checkbox checkbox-bordered"
+						/>
+						<span>Other</span>
+					</label>
+
+					{#if newCategories.includes('Other')}
+						<input
+							type="text"
+							bind:value={otherCategory}
+							placeholder="Please specify"
+							class="input input-bordered w-full mt-2"
+							on:input={handleOtherOptionChange}
+						/>
+					{/if}
+				</div>
+
 				<div>
 					<label class="form-control w-full">
-						<div class="label p-0 ps-3 pb-1 -mt-1">
-							<span class="label-text">Cover photo:</span>
+						<div class="label p-0 pb-1 mt-1">
+							<span>Cover photo:</span>
 						</div>
 						<input
 							type="file"
@@ -466,7 +537,7 @@
 				</div>
 
 				<!-- Article Content -->
-				<div class="text-2xl font-semibold mt-5">Article:</div>
+				<div class="text-3xl font-bold mt-5">Article:</div>
 				<div class="flex flex-col p-5 bg-zinc-100 rounded-lg border border-separate">
 					{#each fields as field, index}
 						{#if field.type === 'paragraph'}
@@ -482,10 +553,10 @@
 								</div>
 
 								<button
-									class="btn btn-sm bg-zinc-200 hover:bg-zinc-300"
+									class="btn btn-sm bg-zinc-200 hover:bg-zinc-300 border-none font-mono flex items-center justify-center rounded-full h-8 w-8 p-0"
 									on:click={() => handleRemoveField(index)}
 								>
-									<span class="text-zinc-600">x</span>
+									<span class="text-zinc-500">x</span>
 								</button>
 							</div>
 						{:else if field.type === 'header'}
@@ -500,10 +571,10 @@
 								/>
 
 								<button
-									class="btn btn-sm bg-zinc-200 hover:bg-zinc-300"
+									class="btn btn-sm bg-zinc-200 hover:bg-zinc-300 border-none font-mono flex items-center justify-center rounded-full h-8 w-8 p-0"
 									on:click={() => handleRemoveField(index)}
 								>
-									<span class="text-zinc-600">x</span>
+									<span class="text-zinc-500">x</span>
 								</button>
 							</div>
 						{:else if field.type === 'image'}
@@ -518,10 +589,10 @@
 										class="file-input file-input-bordered file-input-accent w-full me-1"
 									/>
 									<button
-										class="btn btn-sm bg-zinc-200 hover:bg-zinc-300"
+										class="btn btn-sm bg-zinc-200 hover:bg-zinc-300 border-none font-mono flex items-center justify-center rounded-full h-8 w-8 p-0"
 										on:click={() => handleRemoveField(index)}
 									>
-										<span class="text-zinc-600">x</span>
+										<span class="text-zinc-500">x</span>
 									</button>
 								</div>
 
@@ -545,10 +616,10 @@
 								/>
 
 								<button
-									class="btn btn-sm bg-zinc-200 hover:bg-zinc-300"
+									class="btn btn-sm bg-zinc-200 hover:bg-zinc-300 border-none font-mono flex items-center justify-center rounded-full h-8 w-8 p-0"
 									on:click={() => handleRemoveField(index)}
 								>
-									<span class="text-zinc-600">x</span>
+									<span class="text-zinc-500">x</span>
 								</button>
 							</div>
 						{:else if field.type === 'custom_html'}
@@ -562,10 +633,10 @@
 								></textarea>
 
 								<button
-									class="btn btn-sm bg-zinc-200 hover:bg-zinc-300"
+									class="btn btn-sm bg-zinc-200 hover:bg-zinc-300 border-none font-mono flex items-center justify-center rounded-full h-8 w-8 p-0"
 									on:click={() => handleRemoveField(index)}
 								>
-									<span class="text-zinc-600">x</span>
+									<span class="text-zinc-500">x</span>
 								</button>
 							</div>
 						{/if}
@@ -591,13 +662,18 @@
 					</div>
 				</div>
 
-				<div class="mt-5 justify-items-center">
-					{#each errorMessages as message}
-						<div class="text-red-400 text-sm mb-1">{message}</div>
-					{/each}
-					<button class="btn text-lg bg-green-600 hover:bg-green-700 w-full" on:click={handleSubmit}
-						>Publish Article</button
+				<div class="mt-4 justify-items-center w-full flex flex-col">
+					<button
+						class="flex flex-row btn text-lg bg-green-600 hover:bg-green-700 w-100"
+						on:click={handleSubmit}>Publish/Save Article</button
 					>
+					<div class="flex flex-row text-zinc-400 text-sm font-semibold mt-1">
+						{articleStatus}
+					</div>
+
+					{#each errorMessages as message}
+						<div class="flex flex-row text-red-400 text-sm">{message}</div>
+					{/each}
 				</div>
 			</div>
 		{:else}
@@ -607,6 +683,66 @@
 		{/if}
 	</div>
 </div>
+
+{#if articleSelectModal}
+	<div class="fixed inset-0 bg-gray-900 bg-opacity-50 z-40"></div>
+{/if}
+
+<Modal
+	class="shadow-lg z-5 "
+	title="Select an Article:"
+	bind:open={articleSelectModal}
+	outsideclose
+	autoclose
+	bodyClass=""
+	on:close={() => console.log('Selected Article:', selectedArticle)}
+>
+	<svelte:fragment slot="header">
+		<div class="flex flex-row w-full justify-between">
+			<p class="font-bold text-xl">Select Article:</p>
+			<button
+				class="btn btn-sm bg-gray-700 hover:bg-gray-600 border-none"
+				on:click={() => (articleSelectModal = false)}
+			>
+				Exit
+			</button>
+		</div>
+	</svelte:fragment>
+
+	<div class="flex flex-col mb-4">
+		<button
+			class="px-4 py-3 text-start {selectedArticle === '' ? 'bg-gray-600' : 'hover:bg-gray-700'}"
+			on:click={() => {
+				selectedArticle = '';
+			}}
+		>
+			<i>New Article</i>
+		</button>
+
+		{#each data.articles as article}
+			<button
+				class="px-4 py-3 text-start {selectedArticle === article.title
+					? 'bg-gray-600'
+					: 'hover:bg-gray-700'}"
+				on:click={() => {
+					selectedArticle = article.title;
+					newSlug = article.slug;
+					newTitle = article.title;
+					newAuthor = article.author;
+					newDate = article.date;
+					newCategories = article.categories;
+					newDescription = article.description;
+					newImage = article.image;
+					fields = article.content;
+					console.log(fields);
+					console.log(article.content);
+				}}
+			>
+				{article.title}
+			</button>
+		{/each}
+	</div>
+</Modal>
 
 <style>
 	.btn {
