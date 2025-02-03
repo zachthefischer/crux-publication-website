@@ -42,6 +42,7 @@
 		{
 			name: 'Abby Lin',
 			profilePic: pfp_abby,
+			linkedin: 'https://www.instagram.com/abs1626productions/',
 			title: 'Author'
 		}
 	];
