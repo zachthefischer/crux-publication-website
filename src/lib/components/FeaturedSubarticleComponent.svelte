@@ -18,7 +18,7 @@
 
 		<!-- Title -->
 		<p
-			class="flex-none text-lg md:text-2xl font-bold font-mono text-zinc-700 px-4 pt-5 group-hover:text-accent md:line-clamp-3 md:leading-5"
+			class="flex-none text-lg md:text-2xl font-bold text-zinc-700 px-4 py-2 group-hover:text-accent md:line-clamp-3 md:leading-7"
 		>
 			{article.title}
 		</p>

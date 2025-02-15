@@ -18,9 +18,7 @@
 					<!-- Category -->
 					<div class="text-accent font-bold">{article?.categories[0]}</div>
 					<!-- Title -->
-					<p
-						class="text-lg font-bold font-mono md:line-clamp-3 leading-6 text-zinc-700 hover:text-accent"
-					>
+					<p class="text-lg font-bold md:line-clamp-3 leading-6 text-zinc-700 hover:text-accent">
 						{article.title}
 					</p>
 					<!-- Author/date -->

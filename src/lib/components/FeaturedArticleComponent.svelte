@@ -18,9 +18,7 @@
 		/>
 
 		<!-- Title -->
-		<p
-			class="flex-none text-2xl md:text-3xl font-semibold md:line-clamp-3 font-mono text-zinc-50 px-4 pt-2"
-		>
+		<p class="flex-none text-2xl md:text-3xl font-semibold md:line-clamp-3 text-zinc-50 px-4 pt-2">
 			{article.title}
 		</p>
 

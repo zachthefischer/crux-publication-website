@@ -8,6 +8,7 @@
 
 <a href={article.slug ? `/article/${article.slug}` : undefined}>
 	<div class="p-6 ease-in duration-200 hover:bg-zinc-200/75 text-zinc-500 group">
+		<!-- SMALL SCREEN COLUMN -->
 		<div class="flex flex-col md:hidden">
 			<img
 				class="w-max-full aspect-[2/1] object-cover rounded-lg"
@@ -19,7 +20,7 @@
 			<p class="flex-none text-md text-accent font-bold mt-1">{article.categories[0]}</p>
 			<!-- Title -->
 			<p
-				class="flex-none text-xl font-bold font-mono text-zinc-700 group-hover:text-accent ease-in duration-200"
+				class="flex-none text-xl font-bold text-zinc-700 group-hover:text-accent ease-in duration-200"
 			>
 				{article.title}
 			</p>
@@ -35,6 +36,7 @@
 			</div>
 		</div>
 
+		<!-- LARGE SCREENS, WIDE COLUMN -->
 		<div class="hidden md:flex flex-row justify-between">
 			<div class="flex flex-col me-5">
 				<!-- Category -->
@@ -42,7 +44,7 @@
 
 				<!-- Title -->
 				<p
-					class="flex-none text-2xl font-bold font-mono text-zinc-700 group-hover:text-accent ease-in duration-200"
+					class="flex-none text-2xl font-bold text-zinc-700 group-hover:text-accent ease-in duration-200"
 				>
 					{article.title}
 				</p>
