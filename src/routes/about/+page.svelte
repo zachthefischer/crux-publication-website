@@ -7,7 +7,7 @@
 	import pfp_jonny from '$lib/assets/pfps/Jonny_Dippery_Writer.jpg';
 	import pfp_ting from '$lib/assets/pfps/Ting_Wu_Analyst.png';
 	import pfp_abby from '$lib/assets/pfps/Abby_Lin_Author.jpeg';
-	import pfp_arun from '$lib/assets/pfps/Varun_Sekar_TechAnalyst.jpeg';
+	import pfp_varun from '$lib/assets/pfps/Varun_Sekar_TechAnalyst.jpeg';
 
 	const team = [
 		{
@@ -47,8 +47,8 @@
 			title: 'Author'
 		},
 		{
-			name: 'Arun Sekar',
-			profilePic: pfp_arun,
+			name: 'Varun Sekar',
+			profilePic: pfp_varun,
 			linkedin: 'https://www.linkedin.com/in/varun-sekar-2b2247339/',
 			title: 'Tech Analyst'
 		}
