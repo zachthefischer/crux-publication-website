@@ -39,13 +39,14 @@ export async function getArticles(category : Category) {
         }));
 
         return article;
-    
     }));
     
 
     // Sort articles by date in descending order after fetching
     articles.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
         
+    console.log(articles);
+    
     return articles;
 }
 

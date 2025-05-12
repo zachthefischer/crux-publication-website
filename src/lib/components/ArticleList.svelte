@@ -54,9 +54,9 @@
 			class="grow w-full duration-200 ease-in bg-white md:bg-white/75 rounded-b-lg shadow hover:shadow-lg overflow-hidden"
 			class:rounded-t-lg={header === ''}
 		>
-			{#each articles.slice(0, 5) as article, index}
+			{#each articles.slice(0, 20) as article, index}
 				<ArticlePreview {article}></ArticlePreview>
-				{#if index < 4}
+				{#if index < 19}
 					<div class="mx-6 border-zinc-300 border-[0.5px]"></div>
 				{/if}
 			{/each}
