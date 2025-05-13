@@ -2,6 +2,8 @@ import { getArticles } from '$lib/firebase.services';  // This should be the fun
 
 export async function load() {
     // Query Firestore for articles in the 'Technology' category
+	// copyArticles()
+	
     const featuredArticles = await getArticles('All');
 	// const featuredArticle     = articles[0]
 	// const featuredSubarticle1 = articles[1]

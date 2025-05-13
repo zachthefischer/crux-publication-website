@@ -1,9 +1,6 @@
 <script lang="ts">
 	import type { Article } from '$lib/article.types';
-	import ArticleCardComponent from '$lib/components/ArticleCardComponent.svelte';
 	import ArticleList from '$lib/components/ArticleList.svelte';
-	import ArticlePreview from '$lib/components/ArticlePreview.svelte';
-	import BackgroundComponent from '$lib/components/BackgroundComponent.svelte';
 	import FeaturedArticleComponent from '$lib/components/FeaturedArticleComponent.svelte';
 	import FeaturedSubarticleComponent from '$lib/components/FeaturedSubarticleComponent.svelte';
 	import TextSectionComponent from '$lib/components/TextSectionComponent.svelte';

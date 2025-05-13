@@ -5,7 +5,6 @@
 	import FeaturedListComponent from '$lib/components/FeaturedListComponent.svelte';
 	import TextSectionComponent from '$lib/components/TextSectionComponent.svelte';
 
-	import ArticlePreview from '$lib/components/ArticlePreview.svelte';
 	import BackgroundComponent from '$lib/components/BackgroundComponent.svelte';
 	import ArticleList from '$lib/components/ArticleList.svelte';
 	import type { Article } from '$lib/article.types';

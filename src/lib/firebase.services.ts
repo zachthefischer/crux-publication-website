@@ -1,43 +1,37 @@
 import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
-import type { Article, ArticleContent, Category } from "./article.types";
+import type { Content, Category, ArticlePreview, Article } from "./article.types";
 import { db, storage } from "./firebase.client";
 import { getDownloadURL, ref } from "firebase/storage";
 
 export async function getArticles(category : Category) {    
-    let articles: Article[] = [];
+    let articles: ArticlePreview[] = [];
 
     let q;
     if (category == 'All') {
-        q = query(collection(db, 'articles'));
+        q = query(collection(db, 'article-preview'));
     } else {
         q = query(
-            collection(db, 'articles'),
+            collection(db, 'article-preview'),
             where('categories', 'array-contains', category),
         );
     }
         
     const querySnapshot = await getDocs(q);
     articles = await Promise.all (querySnapshot.docs.map(async (doc) => {
-        const image: ArticleContent = await getImage(doc.data()?.image as ArticleContent);
-    
+        const docData = doc.data()
+
+        const image: Content = await getImage(docData.image as Content);
+
         const article = {
-            slug        : doc.data()?.slug,
-            title       : doc.data()?.title,
-            author      : doc.data()?.author,
-            date        : doc.data()?.date,
-            categories  : doc.data()?.categories,
-            description : doc.data()?.description,
+            slug        : docData.slug,
+            title       : docData.title,
+            author      : docData.author,
+            date        : docData.date,
+            categories  : docData.categories,
+            description : docData.description,
             image       : image,
-            content     : doc.data()?.content
         };
         
-        article.content = await Promise.all(article.content.map(async (segment: ArticleContent) => {
-            if (segment.type === 'image') {
-                segment = await getImage(segment);
-            }
-            return segment;
-        }));
-
         return article;
     }));
     
@@ -51,7 +45,7 @@ export async function getArticles(category : Category) {
 }
 
 
-export async function getImage(image : ArticleContent) : Promise<ArticleContent> {
+export async function getImage(image : Content) : Promise<Content> {
     const imageRef = ref(storage, `files/${image.fileName}`); // Path to your image in Firebase Storage
     try {
         image.src = await getDownloadURL(imageRef); // Generate the image download URL
@@ -65,37 +59,96 @@ export async function getImage(image : ArticleContent) : Promise<ArticleContent>
 
 // Load selected article and populate the images
 export async function loadArticle(slug : string){
-    const docRef = doc(db, 'articles', slug);
+    const docRef = doc(db, 'article-content', slug);
     const docSnap = await getDoc(docRef);
 
-    let article : Article;
+    let articleContent : Article;
 
     if (docSnap.exists()) {
-        const mainImage: ArticleContent = await getImage(docSnap.data()?.image as ArticleContent);
+        const docData = docSnap.data()
 
-        article = { 
-            slug        : docSnap.data()?.slug,
-            title       : docSnap.data()?.title,
-            author      : docSnap.data()?.author,
-            date        : docSnap.data()?.date,
-            categories  : docSnap.data()?.categories,
-            description : docSnap.data()?.description,
+        // Load main image
+        const mainImage: Content = await getImage(docData.preview.image as Content);
+
+        const preview = {
+            slug        : docData.preview.slug,
+            title       : docData.preview.title,
+            author      : docData.preview.author,
+            date        : docData.preview.date,
+            categories  : docData.preview.categories,
+            description : docData.preview.description,
             image       : mainImage,
-            content     : docSnap.data()?.content
-         };
+        };
 
-        article.content = await Promise.all(article.content.map(async (segment: ArticleContent) => {
+        articleContent = { 
+            preview     : preview,
+            content     : docData.content
+        };
+
+
+        // Load all images
+        articleContent.content = await Promise.all(articleContent.content.map(async (segment: Content) => {
             if (segment.type === 'image') {
                 segment = await getImage(segment);
             }
             return segment;
         }));
         
-        console.log('Article:' , article);
+        console.log('Article:' , articleContent);
     } else {
         console.error('No such document!');
         return null;
     }
 
-    return article;
+    return articleContent;
 }
+
+// Copy all articles from articles to article-preview and article-content
+// export async function copyArticles(){
+//     const sourceCollection = collection(db, 'articles');
+//     const previewCollection = collection(db, 'article-preview');
+//     const contentCollection = collection(db, 'article-content');
+
+//     try {
+//         const snapshot = await getDocs(sourceCollection);
+
+//         if (snapshot.empty) {
+//             console.log('No documents found in the source collection.');
+//             return;
+//         }
+
+//         for (const docSnap of snapshot.docs) {
+//             const docData = docSnap.data();
+//             const docId = docSnap.id;
+
+//             // const newArticleRef = doc(contentCollection);
+//             // const newArticleId = newArticleRef.id;
+
+//             const articlePreview : ArticlePreview = { 
+//                 slug        : docData.slug,
+//                 title       : docData.title,
+//                 author      : docData.author,
+//                 date        : docData.date,
+//                 categories  : docData.categories,
+//                 description : docData.description,
+//                 image       : docData.image,
+//             };
+
+//             const articleContent : Article = { 
+//                 preview    : articlePreview,
+//                 content    : docSnap.data()?.content,
+//             };
+
+
+//             // Copy to previewCollection
+//             await setDoc(doc(previewCollection, docId), articlePreview);
+//             console.log(`Document ${docId} copied to article-preview successfully.`);
+
+//             // Copy to contentCollection
+//             await setDoc(doc(contentCollection, docId), articleContent);
+//             console.log(`Document ${docId} copied to article-content successfully.`);
+//         }
+//     } catch (error) {
+//         console.error('Error copying documents:', error);
+//     }
+// }

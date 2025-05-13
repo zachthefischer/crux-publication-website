@@ -1,11 +1,16 @@
 <script lang="ts">
-	import type { Article } from '$lib/article.types';
+	import type { Article, Content, ArticlePreview } from '$lib/article.types';
+	import ArticlePreviewCard from '$lib/components/ArticlePreviewCard.svelte';
 
 	export let data: { article: Article } | undefined;
 	let loading = true;
+	let preview: ArticlePreview;
+	let content: Content[];
 
 	$: if (data) {
 		loading = false;
+		preview = data.article.preview;
+		content = data.article.content;
 	}
 </script>
 
@@ -16,24 +21,20 @@
 			class="mb-2 font-serif text-primary text-center
                 text-4xl md:text-4xl mt-8"
 		>
-			{data.article.title}
+			{preview.title}
 		</div>
 		<!-- AUTHOR/DATE -->
 		<div
 			class="font-serif flex flex-row justify-center gap-2 text-zinc-500 mb-1 text-md md:text-md"
 		>
-			<p class="underline">{data.article.author}</p>
+			<p class="underline">{preview.author}</p>
 			<p>•</p>
-			<p>{data.article.date}</p>
+			<p>{preview.date}</p>
 		</div>
 
 		<!-- TITLE IMAGE -->
 		<div class="mt-8 w-full">
-			<img
-				class="w-full object-contain"
-				src={data.article.image.src}
-				alt={data.article.description}
-			/>
+			<img class="w-full object-contain" src={preview.image.src} alt={preview.description} />
 			<!-- IMAGE CREDITS -->
 			<!-- <p class="text-zinc-500 mt-2 font-serif text-sm font-light text-center">
 				Illustration by Abigail Lin

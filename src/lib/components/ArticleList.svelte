@@ -1,5 +1,5 @@
 <script>
-	import ArticlePreview from './ArticlePreview.svelte';
+	import ArticlePreviewCard from './ArticlePreviewCard.svelte';
 
 	export let articles;
 	export let header = '';
@@ -55,7 +55,7 @@
 			class:rounded-t-lg={header === ''}
 		>
 			{#each articles.slice(0, 20) as article, index}
-				<ArticlePreview {article}></ArticlePreview>
+				<ArticlePreviewCard articlePreview={article}></ArticlePreviewCard>
 				{#if index < 19}
 					<div class="mx-6 border-zinc-300 border-[0.5px]"></div>
 				{/if}
