@@ -11,7 +11,7 @@ import type { FirebaseApp     } from 'firebase/app';
 import type { FirebaseStorage } from 'firebase/storage';
 import type { Firestore       } from 'firebase/firestore';
 import type { Auth            } from 'firebase/auth';
-import type { Article         } from './article.types';
+import type { ArticlePreview, Content         } from './article.types';
 
 const FIREBASE_CONFIG = {
     apiKey            : import.meta.env.VITE_FIREBASE_API_KEY,
@@ -42,41 +42,48 @@ export const initializeFirebase = () => {
     console.log("After firebase is initialized", db);
 };
 
-export async function addArticle(article : Article) {
-    console.log('article:', article);
+export async function addArticle(articlePreview : ArticlePreview, content : Content[]) {
+    console.log('article:', articlePreview);
 
-    const slug = (article.slug === '' ? slugifyTitle(article.title) : article.slug);
+    const slug = (articlePreview.slug === '' ? slugifyTitle(articlePreview.title) : articlePreview.slug);
 
     // Add title image to Storage
-    const fileRef = ref(storage, `files/${article.image.fileName}`);
+    const fileRef = ref(storage, `files/${articlePreview.image.fileName}`);
 
     try {
-        const snapshot = await uploadBytes(fileRef, article.image.file as File);
+        const snapshot = await uploadBytes(fileRef, articlePreview.image.file as File);
         console.log('File uploaded successfully', snapshot);
 
         // Remove the file property so it can be stored in the database
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const sanitizedContent = article.content.map(({ file, ...rest }) => ({
+        const sanitizedContent = content.map(({ file, ...rest }) => ({
             ...rest,
         }));
-                // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { file, ...sanitizedImage } = article.image;
+        
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { file, ...sanitizedImage } = articlePreview.image;
 
         // Add doc to Firestore
-        const articleData = {
+        const sanitizedPreview = {
             slug: slug,
-            title: article.title,
-            author: article.author,
-            date: article.date,
-            categories: article.categories,
-            description: article.description,
+            title: articlePreview.title,
+            author: articlePreview.author,
+            date: articlePreview.date,
+            categories: articlePreview.categories,
+            description: articlePreview.description,
             image: sanitizedImage,
-            content: sanitizedContent,
         };
 
-        await setDoc(doc(db, "articles", slug), articleData);
-        console.log("Document successfully added");
+        const sanitizedArticle = {
+            preview : sanitizedPreview,
+            content : sanitizedContent,
+        }
 
+        await setDoc(doc(db, "article-preview", slug), sanitizedPreview);
+        console.log("Preview successfully added");
+
+        await setDoc(doc(db, "article-content", slug), sanitizedArticle);
+        console.log("Content successfully added");
     } catch (error) {
         console.error('Error occurred while adding the article:', error);
     }

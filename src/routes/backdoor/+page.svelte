@@ -191,20 +191,19 @@
 			return;
 		}
 
-		articleObject = {
+		const articlePreview = {
 			slug: newSlug,
 			title: newTitle,
 			author: newAuthor,
 			date: newDate,
 			categories: newCategories,
 			description: newDescription,
-			image: newImage,
-			content: fields
+			image: newImage
 		};
 
-		console.log('finished object:', articleObject);
+		console.log('finished object:', articlePreview);
 		try {
-			await addArticle(articleObject); // Await the function
+			await addArticle(articlePreview, fields); // Await the function
 			console.log('Article added successfully!');
 			articleStatus = 'Article added successfully!';
 		} catch (error) {

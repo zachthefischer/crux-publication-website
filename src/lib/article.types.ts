@@ -1,15 +1,3 @@
-// export interface Article {
-//     slug        : string,
-//     title       : string,
-//     author      : Author,
-//     date        : Date,
-//     categories  : Category[],
-//     description : string,
-//     image       : Content,
-//     likes      ?: number,
-//     content     : Content[]
-// }
-
 export interface ArticlePreview {
     slug        : string,
     title       : string,
