@@ -1,4 +1,4 @@
-import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, query, setDoc, where } from "firebase/firestore";
 import type { Content, Category, ArticlePreview, Article } from "./article.types";
 import { db, storage } from "./firebase.client";
 import { getDownloadURL, ref } from "firebase/storage";
@@ -26,7 +26,7 @@ export async function getArticles(category : Category) {
             slug        : docData.slug,
             title       : docData.title,
             author      : docData.author,
-            date        : docData.date,
+            date        : docData.date.toDate(),
             categories  : docData.categories,
             description : docData.description,
             image       : image,
@@ -38,8 +38,6 @@ export async function getArticles(category : Category) {
 
     // Sort articles by date in descending order after fetching
     articles.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-        
-    console.log(articles);
     
     return articles;
 }
@@ -74,7 +72,7 @@ export async function loadArticle(slug : string){
             slug        : docData.preview.slug,
             title       : docData.preview.title,
             author      : docData.preview.author,
-            date        : docData.preview.date,
+            date        : docData.preview.date.toDate(), // Firebase returns Dates as timestamp
             categories  : docData.preview.categories,
             description : docData.preview.description,
             image       : mainImage,
@@ -152,3 +150,55 @@ export async function loadArticle(slug : string){
 //         console.error('Error copying documents:', error);
 //     }
 // }
+
+
+export async function copyPreviews(){
+    const previewCollection = collection(db, 'article-preview');
+    const contentCollection = collection(db, 'article-content');
+
+    try {
+        const snapshot = await getDocs(contentCollection);
+
+        if (snapshot.empty) {
+            console.log('No documents found in the source collection.');
+            return;
+        }
+
+        for (const docSnap of snapshot.docs) {
+            const docData = docSnap.data();
+            const docId = docSnap.id;
+
+            const previewDoc = await getDoc(doc(previewCollection, docId))
+            const previewData = previewDoc.data();
+
+
+            // const newArticleRef = doc(contentCollection);
+            // const newArticleId = newArticleRef.id;
+
+            const articlePreview : ArticlePreview = { 
+                slug        : previewData?.slug,
+                title       : previewData?.title,
+                author      : previewData?.author,
+                date        : previewData?.date,
+                categories  : previewData?.categories,
+                description : previewData?.description,
+                image       : previewData?.image,
+            };
+
+            const articleContent : Article = { 
+                preview    : articlePreview,
+                content    : docData?.content,
+            };
+
+            // Copy to previewCollection
+            // await setDoc(doc(previewCollection, docId), articlePreview);
+            // console.log(`Document ${docId} copied to article-preview successfully.`);
+
+            // Copy to contentCollection
+            await setDoc(doc(contentCollection, docId), articleContent);
+            console.log(`Document ${docId} copied to article-content successfully.`);
+        }
+    } catch (error) {
+        console.error('Error copying documents:', error);
+    }
+}

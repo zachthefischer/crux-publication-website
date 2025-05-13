@@ -1,12 +1,16 @@
 <script lang="ts">
-	import type { Article } from '$lib/article.types';
+	import type { Article, ArticlePreview } from '$lib/article.types';
 	import ArticleList from '$lib/components/ArticleList.svelte';
 	import FeaturedArticleComponent from '$lib/components/FeaturedArticleComponent.svelte';
 	import FeaturedSubarticleComponent from '$lib/components/FeaturedSubarticleComponent.svelte';
 	import TextSectionComponent from '$lib/components/TextSectionComponent.svelte';
 
 	export let data:
-		| { articles: Article[]; featuredArticle: Article; featuredSubarticle: Article }
+		| {
+				articles: ArticlePreview[];
+				featuredArticle: ArticlePreview;
+				featuredSubarticle: ArticlePreview;
+		  }
 		| undefined;
 	let loading = true;
 
@@ -44,9 +48,9 @@
 
 		<!-- Mobile view -->
 		<div class="block md:hidden col">
-			<FeaturedArticleComponent article={data.featuredArticle}></FeaturedArticleComponent>
+			<FeaturedArticleComponent preview={data.featuredArticle}></FeaturedArticleComponent>
 			<div class="py-3"></div>
-			<FeaturedSubarticleComponent article={data.featuredSubarticle} />
+			<FeaturedSubarticleComponent preview={data.featuredSubarticle} />
 			<div class="py-3"></div>
 			<TextSectionComponent
 				title=""
@@ -61,12 +65,12 @@
 			<div class="flex flex-row w-full">
 				<div class="flex flex-col w-2/3">
 					<!-- Big Featured Article -->
-					<div class="h-full"><FeaturedArticleComponent article={data.featuredArticle} /></div>
+					<div class="h-full"><FeaturedArticleComponent preview={data.featuredArticle} /></div>
 				</div>
 
 				<div class="flex flex-col w-1/3 ms-5">
 					<!-- Featured Subarticle -->
-					<div class="mb-5"><FeaturedSubarticleComponent article={data.featuredSubarticle} /></div>
+					<div class="mb-5"><FeaturedSubarticleComponent preview={data.featuredSubarticle} /></div>
 
 					<!-- About Technology -->
 					<div class="h-full">

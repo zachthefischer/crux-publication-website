@@ -1,13 +1,17 @@
 <script lang="ts">
-	import type { Article } from '$lib/article.types';
+	import type { Article, ArticlePreview } from '$lib/article.types';
 	import ArticleList from '$lib/components/ArticleList.svelte';
 	import FeaturedArticleComponent from '$lib/components/FeaturedArticleComponent.svelte';
 	import FeaturedSubarticleComponent from '$lib/components/FeaturedSubarticleComponent.svelte';
 	import TextSectionComponent from '$lib/components/TextSectionComponent.svelte';
-	import { dummyArticle } from '$lib/dummy';
+	import { dummyArticle, dummyPreview } from '$lib/dummy';
 
 	export let data:
-		| { articles: Article[]; featuredArticle: Article; featuredSubarticle: Article }
+		| {
+				articles: ArticlePreview[];
+				featuredArticle: ArticlePreview;
+				featuredSubarticle: ArticlePreview;
+		  }
 		| undefined;
 	let loading = true;
 
@@ -44,10 +48,10 @@
 
 	<!-- Mobile view -->
 	<div class="block md:hidden col">
-		<FeaturedArticleComponent article={data ? data.featuredArticle : dummyArticle}
+		<FeaturedArticleComponent preview={data ? data.featuredArticle : dummyPreview}
 		></FeaturedArticleComponent>
 		<div class="py-3"></div>
-		<FeaturedSubarticleComponent article={data ? data.featuredSubarticle : dummyArticle} />
+		<FeaturedSubarticleComponent preview={data ? data.featuredSubarticle : dummyPreview} />
 		<div class="py-3"></div>
 		<TextSectionComponent
 			title=""
@@ -62,7 +66,7 @@
 			<div class="flex flex-col w-1/3 me-5">
 				<!-- Featured Subarticle -->
 				<div class="mb-5">
-					<FeaturedSubarticleComponent article={data ? data.featuredSubarticle : dummyArticle} />
+					<FeaturedSubarticleComponent preview={data ? data.featuredSubarticle : dummyPreview} />
 				</div>
 
 				<!-- About Business -->
@@ -77,7 +81,7 @@
 			<div class="flex flex-col w-2/3">
 				<!-- Big Featured Article -->
 				<div class="h-full">
-					<FeaturedArticleComponent article={data ? data.featuredArticle : dummyArticle} />
+					<FeaturedArticleComponent preview={data ? data.featuredArticle : dummyPreview} />
 				</div>
 			</div>
 		</div>

@@ -55,7 +55,7 @@
 			class:rounded-t-lg={header === ''}
 		>
 			{#each articles.slice(0, 20) as article, index}
-				<ArticlePreviewCard articlePreview={article}></ArticlePreviewCard>
+				<ArticlePreviewCard preview={article}></ArticlePreviewCard>
 				{#if index < 19}
 					<div class="mx-6 border-zinc-300 border-[0.5px]"></div>
 				{/if}

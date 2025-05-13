@@ -1,9 +1,9 @@
 <script lang="ts">
-	import type { Article, ArticleContent } from '$lib/article.types';
+	import type { ArticlePreview } from '$lib/article.types';
 	import LoadingGif from '$lib/assets/Loading.gif';
-	import { dummyArticle } from '$lib/dummy';
+	import { dummyArticle, dummyPreview } from '$lib/dummy';
 
-	export let articles: Article[] = [dummyArticle, dummyArticle, dummyArticle];
+	export let previews: ArticlePreview[] = [dummyPreview, dummyPreview, dummyPreview];
 </script>
 
 <div class="flex flex-col h-full">
@@ -12,21 +12,21 @@
 
 	<!-- Article List -->
 	<div class="grow w-full duration-200 ease-in bg-white/85 rounded-lg shadow hover:shadow-lg">
-		{#each articles as article, index}
-			<a href="/article/{article.slug}">
+		{#each previews as preview, index}
+			<a href="/article/{preview.slug}">
 				<div class="px-4 py-2">
 					<!-- Category -->
-					<div class="text-accent font-bold">{article?.categories[0]}</div>
+					<div class="text-accent font-bold">{preview?.categories[0]}</div>
 					<!-- Title -->
 					<p class="text-lg font-bold md:line-clamp-3 leading-6 text-zinc-700 hover:text-accent">
-						{article.title}
+						{preview.title}
 					</p>
 					<!-- Author/date -->
-					<p class="text-zinc-500">{article.author}</p>
+					<p class="text-zinc-500">{preview.author}</p>
 				</div>
 			</a>
 
-			{#if index < articles.length - 1}
+			{#if index < previews.length - 1}
 				<div class="divider divider-zinc-300 my-0 px-3 py-0"></div>
 			{/if}
 		{/each}

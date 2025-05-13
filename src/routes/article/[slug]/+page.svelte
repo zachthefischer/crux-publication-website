@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Article, Content, ArticlePreview } from '$lib/article.types';
 	import ArticlePreviewCard from '$lib/components/ArticlePreviewCard.svelte';
+	import { FormatDateTime } from '$lib/helpers';
 
 	export let data: { article: Article } | undefined;
 	let loading = true;
@@ -29,7 +30,7 @@
 		>
 			<p class="underline">{preview.author}</p>
 			<p>•</p>
-			<p>{preview.date}</p>
+			<p>{FormatDateTime(preview.date)}</p>
 		</div>
 
 		<!-- TITLE IMAGE -->

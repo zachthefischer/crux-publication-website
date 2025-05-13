@@ -6,7 +6,7 @@ export async function load({ params }) {
 
     // Query Firestore for articles based on the slug
     const article = await loadArticle(slug);
-	console.log("server", article)
+	// console.log("server", article)
 	
     // Pass the articles to the frontend
     return {
