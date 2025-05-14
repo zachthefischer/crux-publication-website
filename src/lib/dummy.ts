@@ -12,7 +12,7 @@ export const dummyPreview : ArticlePreview = {
     categories      : ['All'],
     description     : 'Loading',
     image           : { type: 'image', fileName: 'Loading.gif', src: LoadingGif },
-    author          : dummyAuthor,
+    author          : "Zach Fischer", //dummyAuthor
     date            : new Date(),
 };
 

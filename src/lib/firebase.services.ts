@@ -101,6 +101,59 @@ export async function loadArticle(slug : string){
     return articleContent;
 }
 
+export async function searchArticles(search: string, category: Category) {
+	let articles: ArticlePreview[] = [];
+
+	let q;
+	if (category === 'All') {
+		q = query(collection(db, 'article-preview'));
+	} else {
+		q = query(
+			collection(db, 'article-preview'),
+			where('categories', 'array-contains', category)
+		);
+	}
+
+	const querySnapshot = await getDocs(q);
+	const lowerSearch = search.toLowerCase().trim();
+
+	articles = await Promise.all(
+		querySnapshot.docs.map(async (doc) => {
+			const docData = doc.data();
+
+			const image: Content = await getImage(docData.image as Content);
+
+			const article = {
+				slug: docData.slug,
+				title: docData.title,
+				author: docData.author,
+				date: docData.date.toDate(),
+				categories: docData.categories,
+				description: docData.description,
+				image: image
+			};
+
+			return article;
+		})
+	);
+
+	// 🔍 Filter by search string
+	if (search) {
+		articles = articles.filter(
+			(article) =>
+				article.title.toLowerCase().includes(lowerSearch) ||
+				article.author.toLowerCase().includes(lowerSearch) ||
+				article.description.toLowerCase().includes(lowerSearch)
+		);
+	}
+
+	// 📅 Sort by date
+	articles.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    console.log(articles);
+    
+	return articles;
+}
+
 // Copy all articles from articles to article-preview and article-content
 // export async function copyArticles(){
 //     const sourceCollection = collection(db, 'articles');

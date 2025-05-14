@@ -84,5 +84,5 @@
 		</div>
 	</div>
 
-	<ArticleList articles={data.articles} includeSearch={true} />
+	<ArticleList articles={data.articles} includeSearch={true} category={'Science'} />
 {/if}

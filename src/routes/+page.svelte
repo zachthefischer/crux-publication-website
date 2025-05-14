@@ -56,6 +56,6 @@
 	<ArticleList
 		articles={data.featuredArticles}
 		header="The Latest in Neurotech"
-		includeSearch={false}
+		includeSearch={true}
 	/>
 {/if}

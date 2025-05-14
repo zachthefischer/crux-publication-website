@@ -1,7 +1,7 @@
 export interface ArticlePreview {
     slug        : string,
     title       : string,
-    author      : Author,
+    author      : string, // Change to author eventually
     date        : Date,
     categories  : Category[],
     description : string,
