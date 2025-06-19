@@ -10,5 +10,8 @@ export default defineConfig({
 			]
 		  }),
 	  	sveltekit()
-	]
+	],
+	ssr: {
+      noExternal: ['pdfjs-dist']
+    }
 });

@@ -41,6 +41,7 @@
 		"@tinymce/tinymce-svelte": "^3.0.0",
 		"firebase": "^10.13.2",
 		"flowbite-svelte": "^0.47.4",
+		"pdfjs-dist": "^5.3.31",
 		"tinymce": "^7.4.1"
 	}
 }

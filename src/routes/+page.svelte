@@ -15,6 +15,9 @@
 	$: if (data) {
 		loading = false;
 	}
+
+	import PdfViewer from '$lib/components/PdfViewer.svelte';
+	// import loadPDF from '$lib/pdfjs';
 </script>
 
 <!-- HOME PAGE -->
@@ -52,6 +55,9 @@
 			</div>
 		</div>
 	</div>
+
+	<PdfViewer url="/Journal24-25.pdf" page={2} scale={2.0} />
+	<!-- <canvas use:loadPDF={{ url: 'src/lib/static/journals/Journal24-25.pdf' }}></canvas> -->
 
 	<ArticleList
 		articles={data.featuredArticles}

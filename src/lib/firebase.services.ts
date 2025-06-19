@@ -92,7 +92,7 @@ export async function loadArticle(slug : string){
             return segment;
         }));
         
-        console.log('Article:' , articleContent);
+        // console.log('Article:' , articleContent);
     } else {
         console.error('No such document!');
         return null;
