@@ -1,4 +1,4 @@
-import LoadingGif from '$lib/assets/Loading.gif';
+import LoadingGif from '$lib/static/Loading.gif';
 import type { Article, ArticlePreview, Author } from './article.types';
 
 export const dummyAuthor : Author = {

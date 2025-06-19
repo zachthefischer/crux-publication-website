@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { ArticlePreview } from '$lib/article.types';
-	import LoadingGif from '$lib/assets/Loading.gif';
+	import LoadingGif from '$lib/static/Loading.gif';
 	import { dummyArticle, dummyPreview } from '$lib/dummy';
 
 	export let previews: ArticlePreview[] = [dummyPreview, dummyPreview, dummyPreview];
