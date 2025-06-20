@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Article, ArticlePreview } from '$lib/article.types';
-	import LoadingGif from '$lib/static/Loading.gif';
+	import LoadingGif from '/Loading.gif';
 	import { dummyPreview } from '$lib/dummy';
 	import { FormatDateTime } from '$lib/helpers';
 
