@@ -33,7 +33,6 @@
 
 <!-- Search Section -->
 {#if includeSearch}
-	<!-- Your HTML -->
 	<div class="mx-auto w-3/5 md:w-1/2 lg:w-2/5 my-0 pb-0 md:py-3 md:my-3 z-10">
 		<div class="flex flex-row justify-center">
 			<label class="input input-bordered flex items-center gap-2 w-80 md:w-96 ms-2">

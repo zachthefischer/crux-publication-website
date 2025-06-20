@@ -17,7 +17,13 @@
 	}
 
 	import PdfViewer from '$lib/components/PdfViewer.svelte';
-	// import loadPDF from '$lib/pdfjs';
+
+	// List journal filenames (without extension)
+	const journals = [
+		{ name: 'CruX Journal 24-25', title: 'Human Subjectivity and Experience' }
+		// { name: 'CruX Journal 25-26', title: '...' }
+		// { name: 'CruX Journal 26-27', title: '...' }
+	];
 </script>
 
 <!-- HOME PAGE -->
@@ -56,8 +62,29 @@
 		</div>
 	</div>
 
-	<PdfViewer url="/Journal24-25.pdf" page={2} scale={2.0} />
-	<!-- <canvas use:loadPDF={{ url: 'src/lib/static/journals/Journal24-25.pdf' }}></canvas> -->
+	<!-- <PdfViewer url="/CruX Journal 24-25.pdf" scale={1.0} /> -->
+	<!-- View Journals -->
+
+	<!-- View Journals -->
+	<div class="mx-auto px-3 w-full md:w-3/4 lg:w-3/5 md:mt-3 z-20 mb-2">
+		<div class="flex flex-col h-full">
+			<!-- Header -->
+			<div class="flex-none w-full bg-gradient-to-r from-[#315AB0] to-[#07d1f9c1] p-3 rounded-t-lg">
+				<h2 class="text-3xl font-bold text-zinc-100">Journal Archive</h2>
+			</div>
+
+			<!-- Row of journal thumbnails -->
+			<div
+				class="grow w-full duration-200 ease-in bg-white md:bg-white/70 rounded-b-lg shadow hover:shadow-lg overflow-hidden"
+			>
+				<div class="flex flex-row justify-center overflow-x-auto p-4 items-center">
+					{#each journals as journal}
+						<PdfViewer {journal} />
+					{/each}
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<ArticleList
 		articles={data.featuredArticles}
