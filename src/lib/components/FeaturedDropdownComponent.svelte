@@ -96,12 +96,12 @@
 		border-bottom: 1px solid #ddd;
 	}
 
-	#search-icon {
+	/* #search-icon {
 		position: absolute;
 		left: 10px;
 		top: 10px;
 		font-size: 1.2rem;
-	}
+	} */
 	a {
 		color: black;
 		padding: 12px 16px;
