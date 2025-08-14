@@ -1,7 +1,8 @@
 <script lang="ts">
-	import type { ArticlePreview } from '$lib/article.types';
-	import LoadingGif from '/Loading.gif';
-	import { dummyArticle, dummyPreview } from '$lib/dummy';
+	import type { ArticlePreview } from '$lib/services/article.types';
+	const LoadingGif = '/Loading.gif';
+	import { dummyArticle, dummyPreview } from '$lib/services/dummy';
+	import UserCard from './UserCard.svelte';
 
 	export let previews: ArticlePreview[] = [dummyPreview, dummyPreview, dummyPreview];
 </script>
@@ -22,7 +23,15 @@
 						{preview.title}
 					</p>
 					<!-- Author/date -->
-					<p class="text-zinc-500">{preview.author}</p>
+					{#if preview.authors && preview.authors.length > 0}
+						<div class="flex items-center gap-2">
+							{#each preview.authors as authorId}
+								<UserCard {authorId} />
+							{/each}
+						</div>
+					{:else}
+						<p class="text-zinc-500">{preview.author}</p>
+					{/if}
 				</div>
 			</a>
 

@@ -1,7 +1,7 @@
 /** @type {import('./$types').LayoutLoad} */
 
-import { initializeFirebase } from '$lib/firebase.client';
-import { auth               } from '$lib/firebase.client';
+import { initializeFirebase } from '$lib/services/firebase.client';
+import { auth               } from '$lib/services/firebase.client';
 import { browser            } from '$app/environment';
 import { onAuthStateChanged } from 'firebase/auth';
 

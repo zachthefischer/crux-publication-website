@@ -1,7 +1,8 @@
 export interface ArticlePreview {
     slug        : string,
     title       : string,
-    author      : string, // Change to author eventually
+    author      : string, // Legacy field - keep for backward compatibility
+    authors    ?: string[], // Array of author IDs
     date        : Date,
     categories  : Category[],
     description : string,

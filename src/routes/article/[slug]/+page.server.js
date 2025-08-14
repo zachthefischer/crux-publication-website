@@ -1,4 +1,4 @@
-import { loadArticle } from '$lib/firebase.services';  // Assuming this is your Firestore query function
+import { loadArticle } from '$lib/services/firebase.services';  // Assuming this is your Firestore query function
 
 export async function load({ params }) {
     // Access the slug from the params

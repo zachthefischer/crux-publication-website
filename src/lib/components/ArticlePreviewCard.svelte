@@ -1,8 +1,9 @@
 <script lang="ts">
-	import type { Article, ArticlePreview } from '$lib/article.types';
-	import LoadingGif from '/Loading.gif';
-	import { dummyPreview } from '$lib/dummy';
-	import { FormatDateTime } from '$lib/helpers';
+	import type { Article, ArticlePreview } from '$lib/services/article.types';
+	const LoadingGif = '/Loading.gif';
+	import { dummyPreview } from '$lib/services/dummy';
+	import { FormatDateTime } from '$lib/services/helpers';
+	import UserCard from './UserCard.svelte';
 
 	export let preview: ArticlePreview = dummyPreview;
 </script>
@@ -32,7 +33,15 @@
 
 			<!-- Author/date -->
 			<div class="flex flex-row text-zinc-700 group-hover:text-zinc-800 ease-in duration-200">
-				<p class="font-bold pe-5">{preview.author}</p>
+				{#if preview.authors && preview.authors.length > 0}
+					<div class="flex items-center gap-2 pe-5">
+						{#each preview.authors as authorId}
+							<UserCard {authorId} />
+						{/each}
+					</div>
+				{:else}
+					<p class="font-bold pe-5">{preview.author}</p>
+				{/if}
 				<p>{FormatDateTime(preview.date)}</p>
 			</div>
 		</div>
@@ -59,7 +68,15 @@
 
 				<!-- Author/date -->
 				<div class="flex flex-row text-zinc-700 group-hover:text-zinc-800 ease-in duration-200">
-					<p class="font-bold pe-5">{preview.author}</p>
+					{#if preview.authors && preview.authors.length > 0}
+						<div class="flex items-center gap-2 pe-5">
+							{#each preview.authors as authorId}
+								<UserCard {authorId} />
+							{/each}
+						</div>
+					{:else}
+						<p class="font-bold pe-5">{preview.author}</p>
+					{/if}
 					<p>{FormatDateTime(preview.date)}</p>
 				</div>
 			</div>

@@ -16,4 +16,8 @@ export type SessionState = {
 };
 
 // Export session store
-export const session = <Writable<SessionState>>writable();
+export const session = <Writable<SessionState>>writable({
+    user: null,
+    loading: true,
+    loggedIn: false
+});

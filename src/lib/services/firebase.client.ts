@@ -27,8 +27,7 @@ export const app     : FirebaseApp     = initializeApp(FIREBASE_CONFIG);
 export const db      : Firestore       = getFirestore(app);
 export const storage : FirebaseStorage = getStorage(app);
 
-export let auth    : Auth;
-
+export let auth: Auth;
 
 export const initializeFirebase = () => {
     console.log("Initialize firebase");
@@ -40,6 +39,7 @@ export const initializeFirebase = () => {
     }
 
     console.log("After firebase is initialized", db);
+    return auth;
 };
 
 export async function addArticle(articlePreview : ArticlePreview, content : Content[]) {

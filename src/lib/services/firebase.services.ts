@@ -26,6 +26,7 @@ export async function getArticles(category : Category) {
             slug        : docData.slug,
             title       : docData.title,
             author      : docData.author,
+            authors     : docData.authors || [],
             date        : docData.date.toDate(),
             categories  : docData.categories,
             description : docData.description,
@@ -72,6 +73,7 @@ export async function loadArticle(slug : string){
             slug        : docData.preview.slug,
             title       : docData.preview.title,
             author      : docData.preview.author,
+            authors     : docData.preview.authors || [],
             date        : docData.preview.date.toDate(), // Firebase returns Dates as timestamp
             categories  : docData.preview.categories,
             description : docData.preview.description,

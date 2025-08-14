@@ -7,7 +7,7 @@
 
 	import BackgroundComponent from '$lib/components/BackgroundComponent.svelte';
 	import ArticleList from '$lib/components/ArticleList.svelte';
-	import type { Article, ArticlePreview } from '$lib/article.types';
+	import type { Article, ArticlePreview } from '$lib/services/article.types';
 
 	export let data: { featuredArticles: ArticlePreview[] } | undefined;
 	let loading = true;

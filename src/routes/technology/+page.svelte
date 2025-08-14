@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Article, ArticlePreview } from '$lib/article.types';
+	import type { Article, ArticlePreview } from '$lib/services/article.types';
 	import ArticleList from '$lib/components/ArticleList.svelte';
 	import FeaturedArticleComponent from '$lib/components/FeaturedArticleComponent.svelte';
 	import FeaturedSubarticleComponent from '$lib/components/FeaturedSubarticleComponent.svelte';

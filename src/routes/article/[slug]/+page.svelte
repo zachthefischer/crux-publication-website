@@ -1,7 +1,8 @@
 <script lang="ts">
-	import type { Article, Content, ArticlePreview } from '$lib/article.types';
+	import type { Article, Content, ArticlePreview } from '$lib/services/article.types';
 	import ArticlePreviewCard from '$lib/components/ArticlePreviewCard.svelte';
-	import { FormatDateTime } from '$lib/helpers';
+	import { FormatDateTime } from '$lib/services/helpers';
+	import UserCard from '$lib/components/UserCard.svelte';
 
 	export let data: { article: Article } | undefined;
 	let loading = true;
@@ -11,6 +12,7 @@
 	$: if (data) {
 		loading = false;
 		preview = data.article.preview;
+		console.log(preview);
 		content = data.article.content;
 	}
 </script>
@@ -28,7 +30,15 @@
 		<div
 			class="font-serif flex flex-row justify-center gap-2 text-zinc-500 mb-1 text-md md:text-md"
 		>
-			<p class="underline">{preview.author}</p>
+			{#if preview.authors && preview.authors.length > 0}
+				<div class="flex items-center gap-2">
+					{#each preview.authors as authorId}
+						<UserCard {authorId} />
+					{/each}
+				</div>
+			{:else}
+				<p class="underline">{preview.author}</p>
+			{/if}
 			<p>•</p>
 			<p>{FormatDateTime(preview.date)}</p>
 		</div>

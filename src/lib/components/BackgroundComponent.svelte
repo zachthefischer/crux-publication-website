@@ -1,6 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
-	import { setupBackground } from '../background.js';
+	import { setupBackground } from '$lib/services/background.js';
 
 	onMount(() => {
 		setupBackground('backgroundCanvas');

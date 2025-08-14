@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { ArticlePreview, Category } from '$lib/article.types';
-	import { searchArticles } from '$lib/firebase.services';
+	import type { ArticlePreview, Category } from '$lib/services/article.types';
+	import { searchArticles } from '$lib/services/firebase.services';
 	import ArticlePreviewCard from './ArticlePreviewCard.svelte';
 
 	export let articles: ArticlePreview[];

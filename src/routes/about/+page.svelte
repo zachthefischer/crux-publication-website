@@ -1,13 +1,13 @@
 <script>
 	import BackgroundComponent from '$lib/components/BackgroundComponent.svelte';
 
-	import pfp_mark from '/pfps/Mark_Lee_PublicationManager.png';
-	import pfp_zach from '/pfps/Zach_Fischer_Webmaster.png';
-	import pfp_aadi from '/pfps/Aadi_Ajmire_Interviewer.png';
-	import pfp_jonny from '/pfps/Jonny_Dippery_Writer.jpg';
-	import pfp_ting from '/pfps/Ting_Wu_Analyst.png';
-	import pfp_abby from '/pfps/Abby_Lin_Author.jpeg';
-	import pfp_varun from '/pfps/Varun_Sekar_TechAnalyst.jpeg';
+	const pfp_mark = '/pfps/Mark_Lee_PublicationManager.png';
+	const pfp_zach = '/pfps/Zach_Fischer_Webmaster.png';
+	const pfp_aadi = '/pfps/Aadi_Ajmire_Interviewer.png';
+	const pfp_jonny = '/pfps/Jonny_Dippery_Writer.jpg';
+	const pfp_ting = '/pfps/Ting_Wu_Analyst.png';
+	const pfp_abby = '/pfps/Abby_Lin_Author.jpeg';
+	const pfp_varun = '/pfps/Varun_Sekar_TechAnalyst.jpeg';
 
 	const team = [
 		{

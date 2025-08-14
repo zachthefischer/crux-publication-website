@@ -1,0 +1,536 @@
+<script lang="ts">
+	// NOTE-- REMOVE THIS, only used for FileList error
+	// @ts-nocheck
+	import { session } from '$lib/services/session';
+	import { addArticle, db, storage } from '$lib/services/firebase.client';
+	import { auth } from '$lib/services/firebase.client';
+	import { doc, setDoc } from 'firebase/firestore';
+	import { ref, uploadBytes } from 'firebase/storage';
+	import { goto } from '$app/navigation';
+	import type { Article } from '$lib/services/article.types';
+	import Editor from '@tinymce/tinymce-svelte';
+	import { Button, Modal } from 'flowbite-svelte';
+
+	// DATA MANAGEMENT
+	export let data;
+
+	// Load article
+	let articleSelectModal = false;
+	let selectedArticle = ''; // To store the selected article
+
+	// NEW ARTICLE
+	let articleStatus = 'Changes pending';
+	let newSlug = '';
+	let newTitle = 'This is a title';
+	let newAuthor = 'John Author';
+	let newDate = '05/19/2005';
+	let newCategories = [];
+	const categories = ['Business', 'Technology', 'Science'];
+	let otherCategory = ''; // Store the value for "Other" input
+
+	let newDescription = 'This is a description';
+
+	let newImage = { type: '', src: '' };
+	let articleObject: Article;
+	let errorMessages: string[] = [];
+
+	let fields: ArticleContent[] = []; // Array to manage all fields
+
+	// TinyMCE config with event handler (for text fields )
+	let tinymceConfig = {
+		menubar: true,
+		height: 300,
+		plugins: 'link code',
+		setup(editor) {
+			// Listen for keydown event to handle Tab key
+			editor.on('keydown', function (e) {
+				if (e.key === 'Tab') {
+					e.preventDefault(); // Prevent default tab behavior
+					editor.execCommand('mceInsertContent', false, '&emsp;&emsp;'); // Insert tab character
+				}
+			});
+		}
+	};
+
+	// Navigation
+	function goBack() {
+		goto('/backdoor');
+	}
+
+	// Add anything
+	function addContent(contentType: string) {
+		fields = [...fields, { type: contentType }];
+	}
+
+	// Toggle categories
+	function toggleCategory(category) {
+		if (newCategories.includes(category)) {
+			// Remove the category if already selected
+			newCategories = newCategories.filter((c) => c !== category);
+		} else {
+			// Add the category if not already selected
+			newCategories = [...newCategories, category];
+		}
+	}
+	function handleOtherOptionChange(event) {
+		otherCategory = event.target.value;
+		if (!newCategories.includes('Other')) {
+			newCategories = [...newCategories, 'Other'];
+		}
+	}
+
+	// Data changes within a Paragraph box
+	function handleParagraphChange(event: any, index: number) {
+		console.log(event.target.value);
+		fields[index] = { type: 'paragraph', text: event.target.value };
+	}
+
+	// Data changes within a Header box
+	function handleHeaderChange(event: any, index: number) {
+		fields[index] = { type: 'header', text: event.target.value };
+	}
+
+	// Data changes within a Header box
+	function handleCustomHTMLChange(event: any, index: number) {
+		fields[index] = { type: 'custom_html', text: event.target.value };
+	}
+
+	function handleVideoChange(event: any, index: number) {
+		fields[index] = { type: 'video', src: event.target.value };
+	}
+
+	// Remove a field from the contenxt
+	function handleRemoveField(index: number) {
+		fields.splice(index, 1); // Remove the item at the specified index
+		fields = [...fields]; // Force reactivity
+		console.log(fields);
+	}
+
+	/**
+	 * @param {string | number} index
+	 */
+	function handleImageUpload(event: any, index = -1) {
+		const file = event.target.files[0];
+
+		console.log(event.target.files);
+		if (file) {
+			if (index !== -1) {
+				// Image upload to article
+				fields[index] = {
+					file: file,
+					fileName: file.name,
+					type: 'image',
+					src: URL.createObjectURL(file)
+				};
+			} else {
+				// Image upload to Main Photo
+				newImage = {
+					file: file,
+					type: 'image',
+					fileName: file.name,
+					src: URL.createObjectURL(file)
+				};
+			}
+		}
+	}
+
+	/**
+	 * Function runs when "Publish Article" button is pressed
+	 */
+	async function handleSubmit() {
+		articleStatus = 'Loading';
+
+		// Validate all fields
+		if (validateFields()) {
+			articleStatus = 'Changes pending';
+			return;
+		}
+
+		const articlePreview = {
+			slug: newSlug,
+			title: newTitle,
+			author: newAuthor,
+			date: newDate,
+			categories: newCategories,
+			description: newDescription,
+			image: newImage
+		};
+
+		console.log('finished object:', articlePreview);
+		try {
+			await addArticle(articlePreview, fields); // Await the function
+			console.log('Article added successfully!');
+			articleStatus = 'Article added successfully!';
+		} catch (error) {
+			console.error('Error adding article:', error);
+			articleStatus = 'Failed to add article';
+		}
+	}
+
+	/**
+	 * Function to validate each field
+	 */
+	function validateFields() {
+		// No errors to begin
+		errorMessages = [];
+
+		if (!newTitle) {
+			errorMessages.push('Title field is invalid');
+		}
+		if (!newAuthor) {
+			errorMessages.push('Author field is invalid');
+		}
+		if (!newDate) {
+			errorMessages.push('Date field is invalid');
+		}
+		if (!newCategories) {
+			errorMessages.push('Category field is invalid');
+		}
+		if (!newDescription) {
+			errorMessages.push('Description field is invalid');
+		}
+		if (!newImage.src) {
+			errorMessages.push('Image field is invalid');
+		}
+		if (!fields) {
+			errorMessages.push('Content fields are invalid');
+		}
+
+		for (let field of fields) {
+			if (field.type === 'paragraph' && !field.text) {
+				errorMessages.push('Article content paragraph invalid');
+			} else if (field.type === 'image' && !field.src) {
+				errorMessages.push('Article content image invalid');
+			}
+		}
+
+		return errorMessages.length > 0;
+	}
+</script>
+
+<div class="min-h-screen bg-gray-100 p-8">
+	<div class="max-w-6xl mx-auto">
+		<!-- Header -->
+		<div class="flex items-center justify-between mb-8">
+			<div>
+				<h1 class="text-3xl font-bold text-gray-900">Article Editor</h1>
+				<p class="text-gray-600 mt-2">Create and edit articles</p>
+			</div>
+			<div class="flex gap-2">
+				<Button class="bg-zinc-200" on:click={() => (articleSelectModal = true)}
+					><span class="text-zinc-700">Select Article</span></Button
+				>
+				<button on:click={goBack} class="btn btn-secondary"> ← Back to Dashboard </button>
+			</div>
+		</div>
+
+		<!-- Article Editor Form -->
+		<div class="bg-white rounded-lg shadow-md p-6">
+			<!-- Metadata -->
+			<div class="flex flex-row justify-between mb-6">
+				<div class="text-3xl font-bold">Metadata:</div>
+			</div>
+
+			<div class="space-y-4">
+				<label class="input input-bordered flex items-center gap-2">
+					Title:
+					<input bind:value={newTitle} type="text" class="grow" placeholder="Grapes of Wrath" />
+				</label>
+				<label class="input input-bordered flex items-center gap-2">
+					Author:
+					<input bind:value={newAuthor} type="text" class="grow" placeholder="John Steinbeck" />
+				</label>
+				<label class="input input-bordered flex items-center gap-2">
+					Date:
+					<input bind:value={newDate} type="text" class="grow" placeholder="April 14, 1939" />
+				</label>
+				<label class="input input-bordered flex items-center gap-2">
+					Description:
+					<input
+						bind:value={newDescription}
+						type="text"
+						class="grow"
+						placeholder="1-2 sentence description."
+					/>
+				</label>
+
+				<div class="flex flex-col space-y-2 mt-2">
+					{#each categories as category}
+						<label class="flex items-center space-x-2">
+							<input
+								type="checkbox"
+								value={category}
+								checked={newCategories.includes(category)}
+								on:change={() => toggleCategory(category)}
+								class="checkbox checkbox-bordered"
+							/>
+							<span>{category}</span>
+						</label>
+					{/each}
+
+					<!-- Other option -->
+					<label class="flex items-center space-x-2">
+						<input
+							type="checkbox"
+							value="Other"
+							checked={newCategories.includes('Other')}
+							on:change={() => toggleCategory('Other')}
+							class="checkbox checkbox-bordered"
+						/>
+						<span>Other</span>
+					</label>
+
+					{#if newCategories.includes('Other')}
+						<input
+							type="text"
+							bind:value={otherCategory}
+							placeholder="Please specify"
+							class="input input-bordered w-full mt-2"
+							on:input={handleOtherOptionChange}
+						/>
+					{/if}
+				</div>
+
+				<div>
+					<label class="form-control w-full">
+						<div class="label p-0 pb-1 mt-1">
+							<span>Cover photo:</span>
+						</div>
+						<input
+							type="file"
+							class="file-input file-input-bordered file-input-accent w-full"
+							on:change={(event) => handleImageUpload(event, -1)}
+						/>
+					</label>
+
+					{#if newImage.src}
+						<img
+							src={newImage.src}
+							alt="Title img"
+							class="w-1/3 m-5 aspect-[4/3] object-cover rounded-lg"
+						/>
+					{/if}
+				</div>
+
+				<!-- Article Content -->
+				<div class="text-3xl font-bold mt-5">Article:</div>
+				<div class="flex flex-col p-5 bg-zinc-100 rounded-lg border border-separate">
+					{#each fields as field, index}
+						{#if field.type === 'paragraph'}
+							<!-- Paragraph content -->
+							<div class="flex flex-row w-full">
+								<div class="mb-3 me-1 grow">
+									<Editor
+										licenseKey="nr5tfa2k70yvg1zbuzu2rvguuhr5d4paqwbg3xp966forabr"
+										scriptSrc="tinymce/tinymce.min.js"
+										bind:value={field.text}
+										conf={tinymceConfig}
+									/>
+								</div>
+
+								<button
+									class="btn btn-sm bg-zinc-200 hover:bg-zinc-300 border-none font-mono flex items-center justify-center rounded-full h-8 w-8 p-0"
+									on:click={() => handleRemoveField(index)}
+								>
+									<span class="text-zinc-500">x</span>
+								</button>
+							</div>
+						{:else if field.type === 'header'}
+							<!-- Header content -->
+							<div class="flex flex-row w-full">
+								<input
+									class="mb-3 me-1 grow input input-bordered leading-5 font-bold"
+									type="text"
+									placeholder="Header"
+									value={field.text ? field.text : ''}
+									on:change={(event) => handleHeaderChange(event, index)}
+								/>
+
+								<button
+									class="btn btn-sm bg-zinc-200 hover:bg-zinc-300 border-none font-mono flex items-center justify-center rounded-full h-8 w-8 p-0"
+									on:click={() => handleRemoveField(index)}
+								>
+									<span class="text-zinc-500">x</span>
+								</button>
+							</div>
+						{:else if field.type === 'image'}
+							<!-- Image content -->
+							<div class="mb-3">
+								<div class="flex flex-row">
+									<input
+										type="file"
+										accept="image/*"
+										on:change={(event) => handleImageUpload(event, index)}
+										FileList={field.src ? [{ name: field.src }] : []}
+										class="file-input file-input-bordered file-input-accent w-full me-1"
+									/>
+									<button
+										class="btn btn-sm bg-zinc-200 hover:bg-zinc-300 border-none font-mono flex items-center justify-center rounded-full h-8 w-8 p-0"
+										on:click={() => handleRemoveField(index)}
+									>
+										<span class="text-zinc-500">x</span>
+									</button>
+								</div>
+
+								{#if field.src}
+									<img
+										src={field.src}
+										alt="Title img"
+										class="w-1/3 m-5 aspect-[4/3] object-cover rounded-md"
+									/>
+								{/if}
+							</div>
+						{:else if field.type === 'video'}
+							<!-- Video content -->
+							<div class="flex flex-row w-full">
+								<input
+									class="grow mb-3 me-1 input input-bordered leading-5"
+									type="text"
+									placeholder="Video embed link"
+									value={field.src ? field.src : ''}
+									on:change={(event) => handleVideoChange(event, index)}
+								/>
+
+								<button
+									class="btn btn-sm bg-zinc-200 hover:bg-zinc-300 border-none font-mono flex items-center justify-center rounded-full h-8 w-8 p-0"
+									on:click={() => handleRemoveField(index)}
+								>
+									<span class="text-zinc-500">x</span>
+								</button>
+							</div>
+						{:else if field.type === 'custom_html'}
+							<!-- Custom HTML content -->
+							<div class="flex flex-row w-full">
+								<textarea
+									class="mb-3 me-1 grow w-full h-48 p-4 bg-gray-800 text-white font-mono text-sm rounded-lg border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+									placeholder="Custom HTML..."
+									value={field.customHTML ? field.customHTML : ''}
+									on:change={(event) => handleCustomHTMLChange(event, index)}
+								></textarea>
+
+								<button
+									class="btn btn-sm bg-zinc-200 hover:bg-zinc-300 border-none font-mono flex items-center justify-center rounded-full h-8 w-8 p-0"
+									on:click={() => handleRemoveField(index)}
+								>
+									<span class="text-zinc-500">x</span>
+								</button>
+							</div>
+						{/if}
+					{/each}
+
+					<!-- Add Buttons -->
+					<div class="flex flex-row my-1">
+						<button class="btn btn-sm btn-primary mx-1" on:click={() => addContent('paragraph')}>
+							+ Paragraph
+						</button>
+						<button class="btn btn-sm btn-primary mx-1" on:click={() => addContent('header')}>
+							+ Header
+						</button>
+						<button class="btn btn-sm btn-accent mx-1" on:click={() => addContent('image')}>
+							+ Image
+						</button>
+						<button class="btn btn-sm btn-video mx-1" on:click={() => addContent('video')}>
+							+ Video
+						</button>
+						<button class="btn btn-sm btn-custom mx-1" on:click={() => addContent('custom_html')}>
+							+ Custom HTML
+						</button>
+					</div>
+				</div>
+
+				<div class="mt-4 justify-items-center w-full flex flex-col">
+					<button
+						class="flex flex-row btn text-lg bg-green-600 hover:bg-green-700 w-100"
+						on:click={handleSubmit}>Publish/Save Article</button
+					>
+					<div class="flex flex-row text-zinc-400 text-sm font-semibold mt-1">
+						{articleStatus}
+					</div>
+
+					{#each errorMessages as message}
+						<div class="flex flex-row text-red-400 text-sm">{message}</div>
+					{/each}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{#if articleSelectModal}
+	<div class="fixed inset-0 bg-gray-900 bg-opacity-50 z-40"></div>
+{/if}
+
+<Modal
+	class="shadow-lg z-5 "
+	title="Select an Article:"
+	bind:open={articleSelectModal}
+	outsideclose
+	autoclose
+	bodyClass=""
+	on:close={() => console.log('Selected Article:', selectedArticle)}
+>
+	<svelte:fragment slot="header">
+		<div class="flex flex-row w-full justify-between">
+			<p class="font-bold text-xl">Select Article:</p>
+			<button
+				class="btn btn-sm bg-gray-700 hover:bg-gray-600 border-none"
+				on:click={() => (articleSelectModal = false)}
+			>
+				Exit
+			</button>
+		</div>
+	</svelte:fragment>
+
+	<div class="flex flex-col mb-4">
+		<button
+			class="px-4 py-3 text-start {selectedArticle === '' ? 'bg-gray-600' : 'hover:bg-gray-700'}"
+			on:click={() => {
+				selectedArticle = '';
+			}}
+		>
+			<i>New Article</i>
+		</button>
+
+		{#each data.articles as article}
+			<button
+				class="px-4 py-3 text-start {selectedArticle === article.title
+					? 'bg-gray-600'
+					: 'hover:bg-gray-700'}"
+				on:click={() => {
+					selectedArticle = article.title;
+					newSlug = article.slug;
+					newTitle = article.title;
+					newAuthor = article.author;
+					newDate = article.date;
+					newCategories = article.categories;
+					newDescription = article.description;
+					newImage = article.image;
+					fields = article.content;
+					console.log(fields);
+					console.log(article.content);
+				}}
+			>
+				{article.title}
+			</button>
+		{/each}
+	</div>
+</Modal>
+
+<style>
+	.btn {
+		color: white;
+	}
+	.input,
+	.select,
+	.file-input {
+		height: 40px !important;
+		min-height: 10px !important;
+	}
+
+	.btn-video {
+		background-color: brown;
+	}
+	.btn-custom {
+		background-color: green;
+	}
+</style>

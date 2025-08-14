@@ -1,9 +1,10 @@
-import LoadingGif from '/Loading.gif';
 import type { Article, ArticlePreview, Author } from './article.types';
+const LoadingGif = '/Loading.gif';
 
 export const dummyAuthor : Author = {
     name    : 'Zach Fischer',
     title   : 'Webmaster',
+    articles: []
 }
 
 export const dummyPreview : ArticlePreview = {

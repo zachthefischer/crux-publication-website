@@ -1,8 +1,9 @@
 <script lang="ts">
-	import type { Article, ArticlePreview } from '$lib/article.types';
-	import LoadingGif from '/Loading.gif';
-	import { dummyArticle, dummyPreview } from '$lib/dummy';
-	import { FormatDateTime } from '$lib/helpers';
+	import type { Article, ArticlePreview } from '$lib/services/article.types';
+	const LoadingGif = '/Loading.gif';
+	import { dummyArticle, dummyPreview } from '$lib/services/dummy';
+	import { FormatDateTime } from '$lib/services/helpers';
+	import UserCard from './UserCard.svelte';
 
 	export let preview: ArticlePreview = dummyPreview;
 </script>
@@ -27,7 +28,15 @@
 
 		<!-- Author/date -->
 		<div class="flex flex-row justify-between px-4 pb-3 text-sm md:text-md text-zinc-300">
-			<p class="font-semibold">{preview.author}</p>
+			{#if preview.authors && preview.authors.length > 0}
+				<div class="flex items-center gap-2">
+					{#each preview.authors as authorId}
+						<UserCard {authorId} />
+					{/each}
+				</div>
+			{:else}
+				<p class="font-semibold">{preview.author}</p>
+			{/if}
 			<p>{FormatDateTime(preview.date)}</p>
 		</div>
 	</div>

@@ -1,10 +1,10 @@
 <script lang="ts">
-	import type { Article, ArticlePreview } from '$lib/article.types';
+	import type { Article, ArticlePreview } from '$lib/services/article.types';
 	import ArticleList from '$lib/components/ArticleList.svelte';
 	import FeaturedArticleComponent from '$lib/components/FeaturedArticleComponent.svelte';
 	import FeaturedSubarticleComponent from '$lib/components/FeaturedSubarticleComponent.svelte';
 	import TextSectionComponent from '$lib/components/TextSectionComponent.svelte';
-	import { dummyArticle, dummyPreview } from '$lib/dummy';
+	import { dummyArticle, dummyPreview } from '$lib/services/dummy';
 
 	export let data:
 		| {
