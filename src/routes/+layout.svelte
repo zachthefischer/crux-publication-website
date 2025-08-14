@@ -2,8 +2,8 @@
 	import '../app.css';
 	import BackgroundComponent from '$lib/components/BackgroundComponent.svelte';
 	import FooterComponent from '$lib/components/FooterComponent.svelte';
-	import crux_logo from '/CruXLogo.png';
-	import crux_title from '/CruXTitle.png';
+	const crux_logo = '/CruXLogo.png';
+	const crux_title = '/CruXTitle.png';
 
 	// Routing path
 	import { page } from '$app/stores';

@@ -19,7 +19,8 @@ export interface Author {
     name         : string,
     title        : string,
     pfp         ?: string,
-    linkedin    ?: string
+    linkedin    ?: string,
+    articles     : string[] // Array of article slugs
 }
 
 export interface Content {

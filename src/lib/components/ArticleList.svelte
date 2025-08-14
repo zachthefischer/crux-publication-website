@@ -31,9 +31,9 @@
 	}
 </script>
 
-<!-- Search Section -->
+<!-- Search Bar -->
 {#if includeSearch}
-	<div class="mx-auto w-3/5 md:w-1/2 lg:w-2/5 my-0 pb-0 md:py-3 md:my-3 z-10">
+	<div class="mx-auto w-3/5 md:w-1/2 lg:w-2/5 py-3 my-3 z-10">
 		<div class="flex flex-row justify-center">
 			<label class="input input-bordered flex items-center gap-2 w-80 md:w-96 ms-2">
 				<input type="text" class="grow" placeholder="Search All Articles" on:input={handleInput} />
@@ -64,7 +64,8 @@
 	</div>
 {/if}
 
-<div class="mx-auto px-3 w-full md:w-3/4 lg:w-3/5 md:mt-3 z-10 mb-2">
+<!-- List of Articles -->
+<div class="mx-auto px-3 w-full md:w-3/4 lg:w-3/5 mt-2 z-10 mb-2">
 	<div class="flex flex-col h-full">
 		<!-- If header exists, rounded just on bottom, otherwise rounded everywhere- -->
 		{#if articles.length === 0}

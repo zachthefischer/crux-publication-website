@@ -12,7 +12,7 @@
 		type UserCredential
 	} from 'firebase/auth';
 	import { goto } from '$app/navigation';
-	import type { Article, ArticleContent } from '$lib/article.types';
+	import type { Article } from '$lib/article.types';
 	import FeaturedDropdownComponent from '$lib/components/FeaturedDropdownComponent.svelte';
 	import Editor from '@tinymce/tinymce-svelte';
 	import { Button, Modal } from 'flowbite-svelte';
@@ -57,6 +57,12 @@
 	const categories = ['Business', 'Technology', 'Science'];
 	let otherCategory = ''; // Store the value for "Other" input
 
+	// NEW AUTHOR
+	let newAuthorName = '';
+	let newAuthorTitle = '';
+	let newAuthorPFP = '';
+	let newAuthorLinkedIn = '';
+
 	let newDescription = 'This is a description';
 
 	let newImage = { type: '', src: '' };
@@ -83,23 +89,24 @@
 
 	// Log in function
 	async function loginWithMail() {
-		await signInWithEmailAndPassword(auth, email, password)
-			.then((result) => {
-				const { user }: UserCredential = result;
-				session.set({
-					loggedIn: true,
-					user: {
-						displayName: user?.displayName,
-						email: user?.email,
-						photoURL: user?.photoURL,
-						uid: user?.uid
-					}
-				});
-				loggedIn = true;
-			})
-			.catch((error) => {
-				return error;
-			});
+		console.log('loginWithMail called');
+		// await signInWithEmailAndPassword(auth, email, password)
+		// 	.then((result) => {
+		// 		const { user }: UserCredential = result;
+		// 		session.set({
+		// 			loggedIn: true,
+		// 			user: {
+		// 				displayName: user?.displayName,
+		// 				email: user?.email,
+		// 				photoURL: user?.photoURL,
+		// 				uid: user?.uid
+		// 			}
+		// 		});
+		// 		loggedIn = true;
+		// 	})
+		// 	.catch((error) => {
+		// 		return error;
+		// 	});
 	}
 
 	// Add anything
@@ -674,6 +681,34 @@
 						<div class="flex flex-row text-red-400 text-sm">{message}</div>
 					{/each}
 				</div>
+			</div>
+		{:else}
+			<div class="w-full text-center flex justify-center">
+				<div>Please log in first</div>
+			</div>
+		{/if}
+	</div>
+
+	<!-- New Author Section -->
+	<input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="New Author" />
+	<div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+		{#if loggedIn}
+			<div class="flex flex-col w-3/4 mx-auto">
+				<div class="flex flex-row justify-between">
+					<div class="text-3xl font-bold">New Author:</div>
+				</div>
+				<label class="input input-bordered flex items-center gap-2">
+					Full Name:
+					<input bind:value={newTitle} type="text" class="grow" placeholder="Zach Fischer" />
+				</label>
+				<label class="input input-bordered flex items-center gap-2">
+					Author:
+					<input bind:value={newAuthor} type="text" class="grow" placeholder="John Steinbeck" />
+				</label>
+				<label class="input input-bordered flex items-center gap-2">
+					Date:
+					<input bind:value={newDate} type="text" class="grow" placeholder="April 14, 1939" />
+				</label>
 			</div>
 		{:else}
 			<div class="w-full text-center flex justify-center">

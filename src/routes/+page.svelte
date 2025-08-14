@@ -70,7 +70,7 @@
 		<div class="flex flex-col h-full">
 			<!-- Header -->
 			<div class="flex-none w-full bg-gradient-to-r from-[#315AB0] to-[#07d1f9c1] p-3 rounded-t-lg">
-				<h2 class="text-3xl font-bold text-zinc-100">Journal Archive</h2>
+				<h2 class="text-3xl font-bold text-zinc-100">Journals</h2>
 			</div>
 
 			<!-- Row of journal thumbnails -->
