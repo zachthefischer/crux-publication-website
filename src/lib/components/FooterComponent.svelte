@@ -1,5 +1,5 @@
 <script>
-	import crux_logo from '/CruXLogo.png';
+	const crux_logo = '/CruXLogo.png';
 </script>
 
 <footer class="footer bg-zinc-900 text-primary-content p-10 z-10">
@@ -35,11 +35,16 @@
 	<form>
 		<h6 class="footer-title">Newsletter</h6>
 		<fieldset class="form-control w-80">
-			<label class="label">
+			<label class="label" for="newsletter-email">
 				<span class="label-text text-primary-content">Enter your email address</span>
 			</label>
 			<div class="join">
-				<input type="text" placeholder="username@site.com" class="input input-bordered join-item" />
+				<input
+					id="newsletter-email"
+					type="text"
+					placeholder="username@site.com"
+					class="input input-bordered join-item"
+				/>
 				<button class="btn btn-secondary join-item">Subscribe</button>
 			</div>
 		</fieldset>
