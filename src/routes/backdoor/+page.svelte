@@ -31,7 +31,7 @@
 	}
 
 	function goHome() {
-		goto('/');
+		window.location.href = '/';
 	}
 
 	// Check authentication state on mount
