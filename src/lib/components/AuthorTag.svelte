@@ -3,6 +3,7 @@
 	import { db, storage } from '$lib/services/firebase.client';
 	import { doc, getDoc } from 'firebase/firestore';
 	import { ref, getDownloadURL } from 'firebase/storage';
+	import { goto } from '$app/navigation';
 
 	export let authorId: string;
 
@@ -38,7 +39,7 @@
 	});
 </script>
 
-<div class="flex items-center gap-2 bg-gray-100 rounded-full px-2 py-0.5">
+<a href={`/?author=${encodeURIComponent(authorName)}`} class="flex items-center gap-2 bg-gray-100 rounded-full px-2 py-0.5 cursor-pointer">
 	<span class="text-xs font-medium text-gray-700">{authorName}</span>
 	{#if authorPfp}
 		<img src={authorPfp} alt="{authorName} profile" class="w-5 h-5 rounded-full object-cover" />
@@ -47,4 +48,4 @@
 			<span class="text-xs text-gray-600 font-bold">{authorName.charAt(0)}</span>
 		</div>
 	{/if}
-</div>
+</a>

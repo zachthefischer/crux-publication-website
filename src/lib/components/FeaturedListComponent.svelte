@@ -2,7 +2,7 @@
 	import type { ArticlePreview } from '$lib/services/article.types';
 	const LoadingGif = '/Loading.gif';
 	import { dummyArticle, dummyPreview } from '$lib/services/dummy';
-	import UserCard from './UserCard.svelte';
+	import AuthorTag from './AuthorTag.svelte';
 
 	export let previews: ArticlePreview[] = [dummyPreview, dummyPreview, dummyPreview];
 </script>
@@ -26,7 +26,7 @@
 					{#if preview.authors && preview.authors.length > 0}
 						<div class="flex items-center gap-2">
 							{#each preview.authors as authorId}
-								<UserCard {authorId} />
+								<AuthorTag {authorId} />
 							{/each}
 						</div>
 					{:else}

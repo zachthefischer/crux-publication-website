@@ -2,15 +2,46 @@
 	import type { ArticlePreview, Category } from '$lib/services/article.types';
 	import { searchArticles } from '$lib/services/firebase.services';
 	import ArticlePreviewCard from './ArticlePreviewCard.svelte';
+	import { onMount } from 'svelte';
+	import { page } from '$app/stores'
+	import type { formatPostcssSourceMap } from 'vite';
 
 	export let articles: ArticlePreview[];
 	export let header = '';
 	export let category = 'All' as Category;
 	export let includeSearch = true;
+	export let initialQuery = '';
 
-	let searchQuery = '';
+	let searchQuery = initialQuery;
 	let selectedSort = 'none';
 	let debounceTimeout: ReturnType<typeof setTimeout>;
+
+	onMount(() => {
+		const initial = $page.url.searchParams.get('search') ??
+						$page.url.searchParams.get('author') ??
+						'';
+		
+		if (initial) {
+			searchQuery = initial;
+			runSearch(searchQuery);
+			setTimeout(() => {
+				document.getElementById('search-input')?.scrollIntoView({ behavior: 'smooth' });
+			}, 0);
+		}
+	})
+
+	$: {
+		const newQuery = $page.url.searchParams.get('search') ??
+						 $page.url.searchParams.get('author') ??
+						 '';
+		if (newQuery != searchQuery) {
+			searchQuery = newQuery;
+			runSearch(searchQuery);
+			setTimeout(() => {
+				document.getElementById('search-input')?.scrollIntoView({ behavior: 'smooth' });
+			}, 0);
+		}
+	};
 
 	async function runSearch(query: string) {
 		console.log('Searching for:', query);
@@ -42,7 +73,14 @@
 	<div class="mx-auto w-3/5 md:w-1/2 lg:w-2/5 py-3 my-3 z-10">
 		<div class="flex flex-row justify-center">
 			<label class="input input-bordered flex items-center gap-2 w-80 md:w-96 ms-2">
-				<input type="text" class="grow" placeholder="Search All Articles" on:input={handleInput} />
+				<input 
+					id="search-input" 
+					type="text" 
+					class="grow" 
+					placeholder="Search All Articles"
+					bind:value={searchQuery} 
+					on:input={handleInput} 
+				/>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					viewBox="0 0 16 16"
