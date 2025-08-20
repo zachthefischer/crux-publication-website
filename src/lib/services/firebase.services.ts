@@ -103,7 +103,7 @@ export async function loadArticle(slug : string){
     return articleContent;
 }
 
-export async function searchArticles(search: string, category: Category) {
+export async function searchArticles(search: string, category: Category, sortBy: string) {
 	let articles: ArticlePreview[] = [];
 
 	let q;
@@ -150,7 +150,19 @@ export async function searchArticles(search: string, category: Category) {
 	}
 
 	// 📅 Sort by date
-	articles.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    switch (sortBy) {
+        case 'date':
+            articles.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+            break;
+        case 'author':
+            articles.sort((a, b) => a.author.localeCompare(b.author));
+            break;
+        case 'a-z':
+            articles.sort((a, b) => a.title.localeCompare(b.title));
+            break;
+        default:
+            break;
+    }
     console.log(articles);
     
 	return articles;

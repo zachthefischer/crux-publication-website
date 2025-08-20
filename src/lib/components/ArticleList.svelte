@@ -14,7 +14,7 @@
 
 	async function runSearch(query: string) {
 		console.log('Searching for:', query);
-		articles = await searchArticles(query, category);
+		articles = await searchArticles(query, category, selectedSort);
 	}
 
 	function handleInput(event: Event) {
@@ -28,6 +28,12 @@
 		debounceTimeout = setTimeout(() => {
 			runSearch(searchQuery);
 		}, 300);
+	}
+
+	function handleSortChange(event: Event) {
+		const target = event.target as HTMLSelectElement;
+		selectedSort = target.value;
+		runSearch(searchQuery);
 	}
 </script>
 
@@ -53,6 +59,7 @@
 
 			<select
 				bind:value={selectedSort}
+				on:change={handleSortChange}
 				class="select select-bordered flex-wrap mx-3 w-auto bg-white border"
 			>
 				<option disabled value="none">Sort</option>
