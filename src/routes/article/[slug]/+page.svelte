@@ -2,7 +2,7 @@
 	import type { Article, Content, ArticlePreview } from '$lib/services/article.types';
 	import ArticlePreviewCard from '$lib/components/ArticlePreviewCard.svelte';
 	import { FormatDateTime } from '$lib/services/helpers';
-	import UserCard from '$lib/components/UserCard.svelte';
+	import AuthorTag from '$lib/components/AuthorTag.svelte';
 
 	export let data: { article: Article } | undefined;
 	let loading = true;
@@ -33,7 +33,7 @@
 			{#if preview.authors && preview.authors.length > 0}
 				<div class="flex items-center gap-2">
 					{#each preview.authors as authorId}
-						<UserCard {authorId} />
+						<AuthorTag {authorId} />
 					{/each}
 				</div>
 			{:else}

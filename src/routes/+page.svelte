@@ -9,12 +9,16 @@
 	import ArticleList from '$lib/components/ArticleList.svelte';
 	import type { Article, ArticlePreview } from '$lib/services/article.types';
 
+	import { page } from '$app/stores';
+
 	export let data: { featuredArticles: ArticlePreview[] } | undefined;
 	let loading = true;
 
 	$: if (data) {
 		loading = false;
 	}
+
+	$: authorQuery = $page.url.searchParams.get('author') || '';
 
 	import PdfViewer from '$lib/components/PdfViewer.svelte';
 
@@ -90,5 +94,6 @@
 		articles={data.featuredArticles}
 		header="The Latest in Neurotech"
 		includeSearch={true}
+		initialQuery={authorQuery}
 	/>
 {/if}
