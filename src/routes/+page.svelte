@@ -18,7 +18,7 @@
 		loading = false;
 	}
 
-	$: authorQuery = $page.url.searchParams.get('author') || '';
+	$: authorQuery = $page.url.searchParams.get('authorSearch') || '';
 
 	import PdfViewer from '$lib/components/PdfViewer.svelte';
 
@@ -94,6 +94,6 @@
 		articles={data.featuredArticles}
 		header="The Latest in Neurotech"
 		includeSearch={true}
-		initialQuery={authorQuery}
+		searchFromUrl={authorQuery}
 	/>
 {/if}
