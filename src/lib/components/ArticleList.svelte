@@ -16,6 +16,20 @@
 	let searchQuery = initialQuery;
 	let selectedSort = 'none';
 	let debounceTimeout: ReturnType<typeof setTimeout>;
+	let userHasModifiedSearch = false;
+
+	// Reactive statement to handle searchFromUrl changes
+	$: if (searchFromUrl && searchFromUrl !== searchQuery) {
+		// Reset the flag when a new searchFromUrl is provided (new AuthorTag click)
+		userHasModifiedSearch = false;
+		searchQuery = searchFromUrl;
+		runSearch(searchQuery);
+		setTimeout(() => {
+			document.getElementById('search-input')?.scrollIntoView({ behavior: 'smooth' });
+		}, 0);
+		// Clear searchFromUrl after processing to prevent interference with user input
+		searchFromUrl = '';
+	}
 
 	onMount(() => {
 		// Check if we have a search query from URL parameters or props
@@ -41,6 +55,9 @@
 
 	function handleInput() {
 		console.log('Input event triggered, searchQuery:', searchQuery);
+		
+		// Mark that user has modified the search
+		userHasModifiedSearch = true;
 
 		// Clear the previous timeout
 		clearTimeout(debounceTimeout);
