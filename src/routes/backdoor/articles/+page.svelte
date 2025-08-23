@@ -134,6 +134,8 @@
 		}
 	}
 
+
+
 	/**
 	 * Function runs when "Publish Article" button is pressed
 	 */
@@ -516,12 +518,13 @@
 	</div>
 </Modal>
 
+
+
 <style>
 	.btn {
 		color: white;
 	}
 	.input,
-	.select,
 	.file-input {
 		height: 40px !important;
 		min-height: 10px !important;

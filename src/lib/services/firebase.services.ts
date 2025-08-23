@@ -3,6 +3,28 @@ import type { Content, Category, ArticlePreview, Article } from "./article.types
 import { db, storage } from "./firebase.client";
 import { getDownloadURL, ref } from "firebase/storage";
 
+// Cache for author name to ID mapping
+let authorNameToIdCache: Map<string, string> | null = null;
+
+/**
+ * Get author ID by name, with caching for performance
+ */
+async function getAuthorIdByName(authorName: string): Promise<string | null> {
+    if (!authorNameToIdCache) {
+        // Load all authors into cache
+        const authorsRef = collection(db, 'authors');
+        const authorsSnap = await getDocs(authorsRef);
+        authorNameToIdCache = new Map();
+        
+        authorsSnap.docs.forEach(doc => {
+            const authorData = doc.data();
+            authorNameToIdCache!.set(authorData.name.toLowerCase(), doc.id);
+        });
+    }
+    
+    return authorNameToIdCache.get(authorName.toLowerCase()) || null;
+}
+
 export async function getArticles(category : Category) {    
     let articles: ArticlePreview[] = [];
 
@@ -22,11 +44,21 @@ export async function getArticles(category : Category) {
 
         const image: Content = await getImage(docData.image as Content);
 
+        // Handle legacy author field - if authors array is empty but author field exists,
+        // we'll try to find the author ID by name
+        let authors = docData.authors || [];
+        if (authors.length === 0 && docData.author) {
+            const authorId = await getAuthorIdByName(docData.author);
+            if (authorId) {
+                authors = [authorId];
+            }
+        }
+
         const article = {
             slug        : docData.slug,
             title       : docData.title,
             author      : docData.author,
-            authors     : docData.authors || [],
+            authors     : authors,
             date        : docData.date.toDate(),
             categories  : docData.categories,
             description : docData.description,
@@ -69,11 +101,20 @@ export async function loadArticle(slug : string){
         // Load main image
         const mainImage: Content = await getImage(docData.preview.image as Content);
 
+        // Handle legacy author field for individual article loading
+        let authors = docData.preview.authors || [];
+        if (authors.length === 0 && docData.preview.author) {
+            const authorId = await getAuthorIdByName(docData.preview.author);
+            if (authorId) {
+                authors = [authorId];
+            }
+        }
+
         const preview = {
             slug        : docData.preview.slug,
             title       : docData.preview.title,
             author      : docData.preview.author,
-            authors     : docData.preview.authors || [],
+            authors     : authors,
             date        : docData.preview.date.toDate(), // Firebase returns Dates as timestamp
             categories  : docData.preview.categories,
             description : docData.preview.description,
@@ -125,10 +166,20 @@ export async function searchArticles(search: string, category: Category, sortBy:
 
 			const image: Content = await getImage(docData.image as Content);
 
+			// Handle legacy author field for search results
+			let authors = docData.authors || [];
+			if (authors.length === 0 && docData.author) {
+				const authorId = await getAuthorIdByName(docData.author);
+				if (authorId) {
+					authors = [authorId];
+				}
+			}
+
 			const article = {
 				slug: docData.slug,
 				title: docData.title,
 				author: docData.author,
+				authors: authors,
 				date: docData.date.toDate(),
 				categories: docData.categories,
 				description: docData.description,
@@ -141,11 +192,21 @@ export async function searchArticles(search: string, category: Category, sortBy:
 
 	// 🔍 Filter by search string
 	if (search) {
+		// First, try to find if this is an author search by looking up the author ID
+		const searchAuthorId = await getAuthorIdByName(search);
+		
 		articles = articles.filter(
-			(article) =>
-				article.title.toLowerCase().includes(lowerSearch) ||
-				article.author.toLowerCase().includes(lowerSearch) ||
-				article.description.toLowerCase().includes(lowerSearch)
+			(article) => {
+				// Check if it's a title or description match
+				const titleMatch = article.title.toLowerCase().includes(lowerSearch);
+				const descriptionMatch = article.description.toLowerCase().includes(lowerSearch);
+				
+				// Check if it's an author match (either legacy author field or authors array)
+				const legacyAuthorMatch = article.author.toLowerCase().includes(lowerSearch);
+				const authorIdMatch = searchAuthorId && article.authors && article.authors.includes(searchAuthorId);
+				
+				return titleMatch || descriptionMatch || legacyAuthorMatch || authorIdMatch;
+			}
 		);
 	}
 

@@ -68,6 +68,7 @@ export async function addArticle(articlePreview : ArticlePreview, content : Cont
             slug: slug,
             title: articlePreview.title,
             author: articlePreview.author,
+            authors: articlePreview.authors || [],
             date: articlePreview.date,
             categories: articlePreview.categories,
             description: articlePreview.description,
