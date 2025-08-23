@@ -35,8 +35,10 @@
 			<div class="flex flex-row text-zinc-700 group-hover:text-zinc-800 ease-in duration-200">
 				{#if preview.authors && preview.authors.length > 0}
 					<div class="flex items-center gap-2 pe-5">
-						{#each preview.authors as authorId}
-							<AuthorTag {authorId} />
+						{#each preview.authors as authorId, index}
+							{#key `${preview.slug}-${authorId}-${index}`}
+								<AuthorTag {authorId} />
+							{/key}
 						{/each}
 					</div>
 				{:else}
@@ -70,8 +72,10 @@
 				<div class="flex flex-row text-zinc-700 group-hover:text-zinc-800 ease-in duration-200">
 					{#if preview.authors && preview.authors.length > 0}
 						<div class="flex items-center gap-2 pe-5">
-							{#each preview.authors as authorId}
-								<AuthorTag {authorId} />
+							{#each preview.authors as authorId, index}
+								{#key `${preview.slug}-${authorId}-${index}`}
+									<AuthorTag {authorId} />
+								{/key}
 							{/each}
 						</div>
 					{:else}

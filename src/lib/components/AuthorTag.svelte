@@ -11,6 +11,16 @@
 	let authorPfp = '';
 	let loading = true;
 
+	function handleAuthorClick(event: Event) {
+		// Prevent the click from bubbling up to parent elements (like article links)
+		event.stopPropagation();
+		// Prevent the default behavior of the parent anchor tag
+		event.preventDefault();
+		
+		// Navigate to home page with author search
+		goto(`/?authorSearch=${encodeURIComponent(authorName)}`);
+	}
+
 	onMount(async () => {
 		try {
 			// Get author data from Firestore
@@ -39,7 +49,7 @@
 	});
 </script>
 
-<a href={`/?author=${encodeURIComponent(authorName)}`} class="flex items-center gap-2 bg-gray-100 rounded-full px-2 py-0.5 cursor-pointer">
+<button on:click={handleAuthorClick} class="flex items-center gap-2 bg-gray-100 rounded-full px-2 py-0.5 cursor-pointer hover:bg-gray-200 transition-colors">
 	<span class="text-xs font-medium text-gray-700">{authorName}</span>
 	{#if authorPfp}
 		<img src={authorPfp} alt="{authorName} profile" class="w-5 h-5 rounded-full object-cover" />
@@ -48,4 +58,4 @@
 			<span class="text-xs text-gray-600 font-bold">{authorName.charAt(0)}</span>
 		</div>
 	{/if}
-</a>
+</button>
